@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Yarn_Feed.Models.Crafter>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdentityUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RavelryUsername)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RavelryPassword)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RavelryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentToken)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TokenUpdated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhotoTinyURL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhotoSmallURL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastLoggedIn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShowLastLoggin)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdentityUser.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RavelryUsername)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RavelryPassword)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RavelryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentToken)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TokenUpdated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhotoTinyURL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhotoSmallURL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastLoggedIn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShowLastLoggin)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

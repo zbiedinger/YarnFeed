@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Yarn_Feed.Models.PostProject
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -6,3 +7,22 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+@*<thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>City</th>
+            <th>Zip</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.project.progress</td>
+            <td>@Model.project.name</td>
+            <td>
+                <img src="@Model.project.photos[0].square_url" alt="alternatetext">
+            </td>
+        </tr>
+    </tbody>*@
+
+
+<script src="GetToken.js"></script>

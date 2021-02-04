@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Yarn_Feed.Models
 {
 
-    public class Rootobject
+    public class PostShop
     {
-        public Shop shop { get; set; }
-        public Brand[] brands { get; set; }
+        [Key]
+        public int Id { get; set; }
+        public Shop Shop { get; set; }
+        public Brand[] Brands { get; set; }
         public object ad { get; set; }
     }
 
     public class Shop
     {
-        public string address { get; set; }
-        public string city { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
         public bool closed { get; set; }
         public string facebook_page { get; set; }
         public bool free_wifi { get; set; }

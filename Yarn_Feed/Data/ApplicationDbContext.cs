@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Yarn_Feed.Models;
 
 namespace Yarn_Feed.Data
 {
@@ -26,5 +27,6 @@ namespace Yarn_Feed.Data
                     }
                 );
         }
+        public DbSet<Yarn_Feed.Models.Crafter> Crafter { get; set; }
     }
 }

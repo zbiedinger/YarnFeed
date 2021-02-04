@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Yarn_Feed.Models
 {
+
     public class PostProject
     {
+        [Key]
+        public int Id { get; set; }
         public Project project { get; set; }
         public object[] comments { get; set; }
     }
@@ -73,15 +77,6 @@ namespace Yarn_Feed.Models
         public object bookmark_id { get; set; }
     }
 
-    public class User
-    {
-        public int id { get; set; }
-        public string username { get; set; }
-        public string tiny_photo_url { get; set; }
-        public string small_photo_url { get; set; }
-        public string photo_url { get; set; }
-    }
-
     public class Needle_Sizes
     {
         public int id { get; set; }
@@ -143,26 +138,5 @@ namespace Yarn_Feed.Models
         public bool prefer_metric_length { get; set; }
         public object shop_id { get; set; }
         public object thread_size { get; set; }
-    }
-
-    public class Yarn_Weight
-    {
-        public string crochet_gauge { get; set; }
-        public int id { get; set; }
-        public string knit_gauge { get; set; }
-        public object max_gauge { get; set; }
-        public object min_gauge { get; set; }
-        public string name { get; set; }
-        public string ply { get; set; }
-        public string wpi { get; set; }
-    }
-
-    public class Yarn
-    {
-        public string permalink { get; set; }
-        public int id { get; set; }
-        public string name { get; set; }
-        public string yarn_company_name { get; set; }
-        public int yarn_company_id { get; set; }
     }
 }
