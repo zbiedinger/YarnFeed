@@ -18,6 +18,15 @@ namespace Yarn_Feed.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        string currentToken = "mPigXpN5CR3zjHsfeKR3i4-LaBG4u1kgO10vW62kZdU.zz-iaS3Q5lH9FIghl4VGNN6LV3dqfyfUES8DzaHJA18";
+        CurrentUser currentUser = null;
+        string errorString;
+        string authURL = "https://www.ravelry.com/oauth2/auth";
+        string accessTokenURL = "https://www.ravelry.com/oauth2/token";
+        string scope = "offline";
+        string clientId = "4fd8d5f73981b822d5c51a634e441d28";
+        string clientSecret = "QPNGys9Ld1Y4T/gtW5c/pHQXnzNiK0iifW39IyDD";
+
         public CraftersController(ApplicationDbContext context)
         {
             _context = context;
@@ -57,73 +66,43 @@ namespace Yarn_Feed.Controllers
         // GET: Crafters/Create
         public async Task<IActionResult> Create()
         {
-            //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+            currentUser = await GetCurrentUserAPIAsync();
 
-            string currentToken = "mPigXpN5CR3zjHsfeKR3i4-LaBG4u1kgO10vW62kZdU.zz-iaS3Q5lH9FIghl4VGNN6LV3dqfyfUES8DzaHJA18";
-            CurrentUser currentUser = null;
-            string errorString;
-            string authURL = "https://www.ravelry.com/oauth2/auth";
-            string accessTokenURL = "https://www.ravelry.com/oauth2/token";
-            string scope = "offline";
-            string clientId = "4fd8d5f73981b822d5c51a634e441d28";
-            string clientSecret = "QPNGys9Ld1Y4T/gtW5c/pHQXnzNiK0iifW39IyDD";
-
-
-
-            //GET Request using the Access Token
-            try
+            if (ModelState.IsValid)
             {
-                using (var httpClient = new HttpClient())
-                {
-                    using (var request = new HttpRequestMessage(new HttpMethod("GET"), "https://api.ravelry.com/current_user.json"))
-                    {
-                        request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + currentToken);
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                Crafter crafterCreate = new Crafter();
+                crafterCreate.IdentityUserId = userId;
+                crafterCreate.RavelryId = currentUser.user.id;
+                crafterCreate.RavelryUsername = currentUser.user.username;
+                crafterCreate.PhotoTinyURL = currentUser.user.tiny_photo_url;
+                crafterCreate.PhotoSmallURL = currentUser.user.small_photo_url;
+                crafterCreate.CurrentToken = currentToken;
+                crafterCreate.TokenUpdated = 3599;
+                crafterCreate.ShowLastLoggin = true;
+                crafterCreate.LastLoggedIn = DateTime.Now;
 
-                        var response = await httpClient.SendAsync(request);
-                        string result = await response.Content.ReadAsStringAsync();
-                        currentUser = JsonConvert.DeserializeObject<CurrentUser>(result);
-                    }
-                }
-
-                if (ModelState.IsValid)
-                {
-                    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                    Crafter crafterCreate = new Crafter();
-                    crafterCreate.IdentityUserId = userId;
-                    crafterCreate.RavelryId = currentUser.user.id;
-                    crafterCreate.RavelryUsername = currentUser.user.username;
-                    crafterCreate.PhotoTinyURL = currentUser.user.tiny_photo_url;
-                    crafterCreate.PhotoSmallURL = currentUser.user.small_photo_url;
-                    crafterCreate.CurrentToken = currentToken;
-                    crafterCreate.TokenUpdated = 3599;
-                    crafterCreate.ShowLastLoggin = true;
-                    crafterCreate.LastLoggedIn = DateTime.Now;
-
-                    _context.Add(crafterCreate);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Index");
-                }
-            }
-            catch (Exception ex)
-            {
-                errorString = $"There was a error getting our Shop: {ex.Message}";
+                _context.Add(crafterCreate);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
 
+            //if here, then something went wrong
             return View();
         }
 
-        // POST: Crafters/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Crafter crafter)
-        {
-            if (crafter == null) 
-            {
-                return RedirectToAction("Index"); 
-            }
+        //// POST: Crafters/Create
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create(Crafter crafter)
+        //{
+        //    if (crafter == null) 
+        //    {
+        //        return RedirectToAction("Index"); 
+        //    }
 
-            return View(crafter);
-        }
+        //    return View(crafter);
+        //}
 
         // GET: Crafters/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -211,6 +190,29 @@ namespace Yarn_Feed.Controllers
         private bool CrafterExists(int id)
         {
             return _context.Crafter.Any(e => e.Id == id);
+        }
+
+        public async Task<CurrentUser> GetCurrentUserAPIAsync()
+        {
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var request = new HttpRequestMessage(new HttpMethod("GET"), "https://api.ravelry.com/current_user.json"))
+                    {
+                        request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + currentToken);
+
+                        var response = await httpClient.SendAsync(request);
+                        string result = await response.Content.ReadAsStringAsync();
+                        currentUser = JsonConvert.DeserializeObject<CurrentUser>(result);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorString = $"There was a error getting our Shop: {ex.Message}";
+            }
+            return currentUser;
         }
     }
 }
