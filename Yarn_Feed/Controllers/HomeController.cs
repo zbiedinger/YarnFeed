@@ -18,6 +18,7 @@ using Yarn_Feed.Models;
 
 namespace Yarn_Feed.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -128,7 +129,7 @@ namespace Yarn_Feed.Controllers
             //    }
             //}
 
-            return View(projectFound);
+            return View();
         }
 
         //public async Task<string> GetAPI(string apiPath)

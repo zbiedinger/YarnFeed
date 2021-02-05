@@ -14,6 +14,7 @@ namespace Yarn_Feed.Data
             : base(options)
         {
         }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -22,11 +23,24 @@ namespace Yarn_Feed.Data
                 .HasData(
                     new IdentityRole
                     {
+                        Name = "Admin",
+                        NormalizedName = "ADMIN"
+                    },
+                    new IdentityRole
+                    {
                         Name = "Crafter",
                         NormalizedName = "CRAFTER"
                     }
                 );
         }
+        public DbSet<Yarn_Feed.Models.Admin> Admin { get; set; }
         public DbSet<Yarn_Feed.Models.Crafter> Crafter { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<PostPattern> PostPatterns { get; set; }
+        public DbSet<PostProject> PostProjectss { get; set; }
+        public DbSet<PostShop> PostShops { get; set; }
+        public DbSet<PostStash> PostStashs { get; set; }
     }
 }

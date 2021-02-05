@@ -11,19 +11,19 @@ namespace Yarn_Feed.Models
     {
         [Key]
         public int Id { get; set; }
-        public bool IsLiked { get; set; }
-        public DateTime LikedAt { get; set; }
+        public bool? IsLiked { get; set; }
+        public DateTime? LikedAt { get; set; }
 
         [ForeignKey("Post")]
-        public int PostId { get; set; }
+        public int? PostId { get; set; }
         public Post Post { get; set; }
 
         [ForeignKey("Comment")]
-        public int CommentId { get; set; }
+        public int? CommentId { get; set; }
         public Comment Comment { get; set; }
 
         [ForeignKey("Crafter")]
-        public int CrafterId { get; set; }
+        public int? CrafterId { get; set; }
         public Crafter Crafter { get; set; }
     }
 }

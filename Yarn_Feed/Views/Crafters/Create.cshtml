@@ -1,77 +1,77 @@
 ﻿@model Yarn_Feed.Models.Crafter
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Details";
 }
 
-<h1>Create</h1>
-
-<h4>Crafter</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="IdentityUserId" class="control-label"></label>
-                <select asp-for="IdentityUserId" class ="form-control" asp-items="ViewBag.IdentityUserId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="RavelryUsername" class="control-label"></label>
-                <input asp-for="RavelryUsername" class="form-control" />
-                <span asp-validation-for="RavelryUsername" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RavelryPassword" class="control-label"></label>
-                <input asp-for="RavelryPassword" class="form-control" />
-                <span asp-validation-for="RavelryPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RavelryId" class="control-label"></label>
-                <input asp-for="RavelryId" class="form-control" />
-                <span asp-validation-for="RavelryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CurrentToken" class="control-label"></label>
-                <input asp-for="CurrentToken" class="form-control" />
-                <span asp-validation-for="CurrentToken" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TokenUpdated" class="control-label"></label>
-                <input asp-for="TokenUpdated" class="form-control" />
-                <span asp-validation-for="TokenUpdated" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhotoTinyURL" class="control-label"></label>
-                <input asp-for="PhotoTinyURL" class="form-control" />
-                <span asp-validation-for="PhotoTinyURL" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhotoSmallURL" class="control-label"></label>
-                <input asp-for="PhotoSmallURL" class="form-control" />
-                <span asp-validation-for="PhotoSmallURL" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastLoggedIn" class="control-label"></label>
-                <input asp-for="LastLoggedIn" class="form-control" />
-                <span asp-validation-for="LastLoggedIn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ShowLastLoggin" class="control-label"></label>
-                <input asp-for="ShowLastLoggin" class="form-control" />
-                <span asp-validation-for="ShowLastLoggin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+<h1>Details</h1>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <h4>Crafter</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdentityUser)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdentityUser.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RavelryUsername)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RavelryUsername)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RavelryPassword)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RavelryPassword)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RavelryId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RavelryId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CurrentToken)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CurrentToken)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TokenUpdated)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TokenUpdated)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PhotoTinyURL)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PhotoTinyURL)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PhotoSmallURL)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PhotoSmallURL)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LastLoggedIn)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LastLoggedIn)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ShowLastLoggin)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ShowLastLoggin)
+        </dd>
+    </dl>
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<div>
+    
+</div>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Yarn_Feed.Models.Crafter>
+﻿@model Yarn_Feed.Models.Crafter
 
 @{
     ViewData["Title"] = "Index";
@@ -13,13 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdentityUser)
+                @Html.DisplayNameFor(model => model.IdentityUserId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.RavelryUsername)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RavelryPassword)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.RavelryId)
@@ -46,44 +43,35 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.IdentityUser.Id)
+                @Html.DisplayFor(model => model.IdentityUserId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RavelryUsername)
+                @Html.DisplayFor(model => model.RavelryUsername)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RavelryPassword)
+                @Html.DisplayFor(model => model.RavelryId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RavelryId)
+                @Html.DisplayFor(model => model.CurrentToken)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CurrentToken)
+                @Html.DisplayFor(model => model.TokenUpdated)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TokenUpdated)
+                @Html.DisplayFor(model => model.PhotoTinyURL)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PhotoTinyURL)
+                @Html.DisplayFor(model => model.PhotoSmallURL)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PhotoSmallURL)
+                @Html.DisplayFor(model => model.LastLoggedIn)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LastLoggedIn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShowLastLoggin)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @Html.DisplayFor(model => model.ShowLastLoggin)
             </td>
         </tr>
-}
+
     </tbody>
 </table>

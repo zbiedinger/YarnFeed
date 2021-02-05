@@ -11,18 +11,18 @@ namespace Yarn_Feed.Models
     {
         [Key]
         public int Id { get; set; }
-        public DateTime CommentedAt { get; set; }
-        public bool IsRead { get; set; }
+        public DateTime? CommentedAt { get; set; }
+        public bool? IsRead { get; set; }
         public string CommentContent { get; set; }
-        public bool IsFirstComment { get; set; }
-        public int ReplyToId { get; set; } //should this be a foreighKey to the same table???
+        public bool? IsFirstComment { get; set; }
+        public int? ReplyToId { get; set; } //should this be a foreighKey to the same table???
 
         [ForeignKey("Post")]
-        public int PostId { get; set; }
+        public int? PostId { get; set; }
         public Post Post { get; set; }
 
         [ForeignKey("Crafter")]
-        public int CrafterId { get; set; }
+        public int? CrafterId { get; set; }
         public Crafter Crafter { get; set; }
     }
 }

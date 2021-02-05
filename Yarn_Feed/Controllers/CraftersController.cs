@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using RestClient.Net;
 using Yarn_Feed.Data;
 using Yarn_Feed.Models;
 
@@ -20,10 +24,15 @@ namespace Yarn_Feed.Controllers
         }
 
         // GET: Crafters
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var applicationDbContext = _context.Crafter.Include(c => c.IdentityUser);
-            return View(await applicationDbContext.ToListAsync());
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var crafter =  _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            if (crafter == null)
+            {
+                return RedirectToAction("Create");
+            }
+            return View(crafter);
         }
 
         // GET: Crafters/Details/5
@@ -46,26 +55,73 @@ namespace Yarn_Feed.Controllers
         }
 
         // GET: Crafters/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+            //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+
+            string currentToken = "mPigXpN5CR3zjHsfeKR3i4-LaBG4u1kgO10vW62kZdU.zz-iaS3Q5lH9FIghl4VGNN6LV3dqfyfUES8DzaHJA18";
+            CurrentUser currentUser = null;
+            string errorString;
+            string authURL = "https://www.ravelry.com/oauth2/auth";
+            string accessTokenURL = "https://www.ravelry.com/oauth2/token";
+            string scope = "offline";
+            string clientId = "4fd8d5f73981b822d5c51a634e441d28";
+            string clientSecret = "QPNGys9Ld1Y4T/gtW5c/pHQXnzNiK0iifW39IyDD";
+
+
+
+            //GET Request using the Access Token
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var request = new HttpRequestMessage(new HttpMethod("GET"), "https://api.ravelry.com/current_user.json"))
+                    {
+                        request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + currentToken);
+
+                        var response = await httpClient.SendAsync(request);
+                        string result = await response.Content.ReadAsStringAsync();
+                        currentUser = JsonConvert.DeserializeObject<CurrentUser>(result);
+                    }
+                }
+
+                if (ModelState.IsValid)
+                {
+                    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    Crafter crafterCreate = new Crafter();
+                    crafterCreate.IdentityUserId = userId;
+                    crafterCreate.RavelryId = currentUser.user.id;
+                    crafterCreate.RavelryUsername = currentUser.user.username;
+                    crafterCreate.PhotoTinyURL = currentUser.user.tiny_photo_url;
+                    crafterCreate.PhotoSmallURL = currentUser.user.small_photo_url;
+                    crafterCreate.CurrentToken = currentToken;
+                    crafterCreate.TokenUpdated = 3599;
+                    crafterCreate.ShowLastLoggin = true;
+                    crafterCreate.LastLoggedIn = DateTime.Now;
+
+                    _context.Add(crafterCreate);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorString = $"There was a error getting our Shop: {ex.Message}";
+            }
+
             return View();
         }
 
         // POST: Crafters/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdentityUserId,RavelryUsername,RavelryPassword,RavelryId,CurrentToken,TokenUpdated,PhotoTinyURL,PhotoSmallURL,LastLoggedIn,ShowLastLoggin")] Crafter crafter)
+        public async Task<IActionResult> Create(Crafter crafter)
         {
-            if (ModelState.IsValid)
+            if (crafter == null) 
             {
-                _context.Add(crafter);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index"); 
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", crafter.IdentityUserId);
+
             return View(crafter);
         }
 
