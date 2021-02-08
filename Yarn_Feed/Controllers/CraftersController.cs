@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using RestClient.Net;
 using Yarn_Feed.Data;
 using Yarn_Feed.Models;
+using Yarn_Feed.ViewModels;
 
 namespace Yarn_Feed.Controllers
 {
@@ -36,7 +37,7 @@ namespace Yarn_Feed.Controllers
         }
 
         // GET: Crafters
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var crafter =  _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
@@ -45,9 +46,17 @@ namespace Yarn_Feed.Controllers
                 return RedirectToAction("Create");
             }
 
+            if(crafter.LastLoggedIn < DateTime.Now.AddMinutes(-5))
+            {
+                UpdateLoginTime();
+            }
+            
+
             string ShopNumber = "2588";
 
-            var postShop = GetShopAPIAsync(ShopNumber);
+            PostShop postShop = await GetShopAPIAsync(ShopNumber);
+
+            PostViewModel postedGoodies = await GetRecentPosts();
 
             return View(crafter);
         }
@@ -202,29 +211,90 @@ namespace Yarn_Feed.Controllers
 
         //SHould updatet hte lastloggin time every time they are braught to the index page.
         //looping issue
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> UpdateLoginTime (Crafter crafter)
-        //{
-        //        try
-        //        {
-        //            crafter.LastLoggedIn = DateTime.Now;
-        //            _context.Update(crafter);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!CrafterExists(crafter.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        // }
+        public async Task<IActionResult> UpdateLoginTime(Crafter crafter)
+        {
+            try
+            {
+                crafter.LastLoggedIn = DateTime.Now;
+                _context.Update(crafter);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CrafterExists(crafter.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<PostViewModel> GetRecentPosts()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var crafter = _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            List<Post> newPosts = GetPostsAsync();
+            List<PostPattern> postedPatterens = GetPatternsAsync();
+            List<PostProject> postedProjects = GetProjectsAsync();
+            List<PostShop> postedShops = GetShopsAsync();
+            List<PostStash> postedStashs = GetStashAsync();
+            List<Like> postedLikes = GetLikesAsync();
+            List<Comment> postedComments = GetCommentsAsync();
+
+            PostViewModel postedGoodies = new PostViewModel()
+            {
+                NewPosts = newPosts,
+                PostedPatterens = postedPatterens,
+                PostedProjects = postedProjects,
+                PostedShops = postedShops,
+                PostedStashs = postedStashs,
+                PostedLikes = postedLikes,
+                PostedComments = postedComments
+            };
+
+            return postedGoodies;
+        }
+
+        public List<Post> GetPostsAsync()
+        {
+            List<Post> posts = null;
+            return posts;
+        }
+
+        public List<PostPattern> GetPatternsAsync()
+        {
+            List<PostPattern> patterns = null;
+            return patterns;
+        }
+        public List<PostProject> GetProjectsAsync()
+        {
+            List<PostProject> projects = null;
+            return projects;
+        }
+        public List<PostShop> GetShopsAsync()
+        {
+            List<PostShop> shops = null;
+            return shops;
+        }
+        public List<PostStash> GetStashAsync()
+        {
+            List<PostStash> stashs = null;
+            return stashs;
+        }
+        public List<Like> GetLikesAsync()
+        {
+            List<Like> likes = null;
+            return likes;
+        }
+        public List<Comment> GetCommentsAsync()
+        {
+            List<Comment> comments = null;
+            return comments;
+        }
 
         public async Task<CurrentUser> GetCurrentUserAPIAsync()
         {

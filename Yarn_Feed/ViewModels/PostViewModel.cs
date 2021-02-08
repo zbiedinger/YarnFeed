@@ -15,6 +15,8 @@ namespace Yarn_Feed.ViewModels
         public List<PostProject> PostedProjects { get; set; }
         public List<PostShop> PostedShops { get; set; }
         public List<PostStash> PostedStashs { get; set; }
+        public List<Like> PostedLikes { get; set; }
+        public List<Comment> PostedComments { get; set; }
     }
 }
 
