@@ -38,11 +38,33 @@ namespace Yarn_Feed.Controllers
         public async Task<IActionResult> Index()
         {
 
-            //PostShop shopFound = null;
+            PostShop shopFound = null;
             PostProject projectFound = null;
             CurrentUser currentUser;
             ApiToken apiToken;
             string errorString;
+
+            try
+            {
+                using (var httpclient = new HttpClient())
+                {
+                    using (var request = new HttpRequestMessage(new HttpMethod("get"), "https://api.ravelry.com/shops/" + "2588" + ".json?include=brands+ad"))
+                    {
+                        var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes(ApiKeys.GetUsername() + ":" + ApiKeys.GetPassword()));
+                        request.Headers.TryAddWithoutValidation("authorization", $"basic {base64authorization}");
+
+                        var response = await httpclient.SendAsync(request);
+                        string result = await response.Content.ReadAsStringAsync();
+                        shopFound = JsonConvert.DeserializeObject<PostShop>(result);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorString = $"There was a error getting our Shop: {ex.Message}";
+            }
+
+
 
             //try
             //{
@@ -50,7 +72,7 @@ namespace Yarn_Feed.Controllers
             //    {
             //        using (var request = new HttpRequestMessage(new HttpMethod("get"), "https://api.ravelry.com/shops/2588.json?include=brands+ad"))
             //        {
-            //            var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes("read-eacbe5950cc441073c7d5fbb94aac112:q1tdrhdrfmcnyc9rcmacyh6hhzd+jievluuy+cjj"));
+            //            var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes("read-eacbe5950cc441073c7d5fbb94aac112:Q1TdrHdrFMCNYc9RcmaCyH6HhZd+jIEvlUUy+cJj"));
             //            request.Headers.TryAddWithoutValidation("authorization", $"basic {base64authorization}");
 
             //            var response = await httpclient.SendAsync(request);

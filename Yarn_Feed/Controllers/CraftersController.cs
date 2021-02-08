@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,14 +19,16 @@ namespace Yarn_Feed.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        string currentToken = "mPigXpN5CR3zjHsfeKR3i4-LaBG4u1kgO10vW62kZdU.zz-iaS3Q5lH9FIghl4VGNN6LV3dqfyfUES8DzaHJA18";
-        CurrentUser currentUser = null;
+        //string currentToken = "mPigXpN5CR3zjHsfeKR3i4-LaBG4u1kgO10vW62kZdU.zz-iaS3Q5lH9FIghl4VGNN6LV3dqfyfUES8DzaHJA18";
+        //string authURL = "https://www.ravelry.com/oauth2/auth";
+        //string accessTokenURL = "https://www.ravelry.com/oauth2/token";
+        //string scope = "offline";
+        //string clientId = "4fd8d5f73981b822d5c51a634e441d28";
+        //string clientSecret = "QPNGys9Ld1Y4T/gtW5c/pHQXnzNiK0iifW39IyDD";
+
+        //CurrentUser currentUser = null;
         string errorString;
-        string authURL = "https://www.ravelry.com/oauth2/auth";
-        string accessTokenURL = "https://www.ravelry.com/oauth2/token";
-        string scope = "offline";
-        string clientId = "4fd8d5f73981b822d5c51a634e441d28";
-        string clientSecret = "QPNGys9Ld1Y4T/gtW5c/pHQXnzNiK0iifW39IyDD";
+
 
         public CraftersController(ApplicationDbContext context)
         {
@@ -41,6 +44,11 @@ namespace Yarn_Feed.Controllers
             {
                 return RedirectToAction("Create");
             }
+
+            string ShopNumber = "2588";
+
+            var postShop = GetShopAPIAsync(ShopNumber);
+
             return View(crafter);
         }
 
@@ -66,7 +74,7 @@ namespace Yarn_Feed.Controllers
         // GET: Crafters/Create
         public async Task<IActionResult> Create()
         {
-            currentUser = await GetCurrentUserAPIAsync();
+            CurrentUser currentUser = await GetCurrentUserAPIAsync();
 
             if (ModelState.IsValid)
             {
@@ -77,7 +85,7 @@ namespace Yarn_Feed.Controllers
                 crafterCreate.RavelryUsername = currentUser.user.username;
                 crafterCreate.PhotoTinyURL = currentUser.user.tiny_photo_url;
                 crafterCreate.PhotoSmallURL = currentUser.user.small_photo_url;
-                crafterCreate.CurrentToken = currentToken;
+                crafterCreate.CurrentToken = ApiKeys.GetCurrentToken();
                 crafterCreate.TokenUpdated = 3599;
                 crafterCreate.ShowLastLoggin = true;
                 crafterCreate.LastLoggedIn = DateTime.Now;
@@ -192,15 +200,42 @@ namespace Yarn_Feed.Controllers
             return _context.Crafter.Any(e => e.Id == id);
         }
 
+        //SHould updatet hte lastloggin time every time they are braught to the index page.
+        //looping issue
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> UpdateLoginTime (Crafter crafter)
+        //{
+        //        try
+        //        {
+        //            crafter.LastLoggedIn = DateTime.Now;
+        //            _context.Update(crafter);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!CrafterExists(crafter.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        // }
+
         public async Task<CurrentUser> GetCurrentUserAPIAsync()
         {
+            CurrentUser currentUser = null;
             try
             {
                 using (var httpClient = new HttpClient())
                 {
                     using (var request = new HttpRequestMessage(new HttpMethod("GET"), "https://api.ravelry.com/current_user.json"))
                     {
-                        request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + currentToken);
+                        request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + ApiKeys.GetCurrentToken());
 
                         var response = await httpClient.SendAsync(request);
                         string result = await response.Content.ReadAsStringAsync();
@@ -213,6 +248,32 @@ namespace Yarn_Feed.Controllers
                 errorString = $"There was a error getting our Shop: {ex.Message}";
             }
             return currentUser;
+        }
+
+        public async Task<PostShop> GetShopAPIAsync(string shopId)
+        {
+            PostShop shopFound = null;
+            try
+            {
+                using (var httpclient = new HttpClient())
+                {
+                    using (var request = new HttpRequestMessage(new HttpMethod("get"), "https://api.ravelry.com/shops/" + "2588" + ".json?include=brands+ad"))
+                    {
+                        var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes(ApiKeys.GetUsername() + ":" + ApiKeys.GetPassword()));
+                        request.Headers.TryAddWithoutValidation("authorization", $"basic {base64authorization}");
+
+                        var response = await httpclient.SendAsync(request);
+                        string result = await response.Content.ReadAsStringAsync();
+                        shopFound = JsonConvert.DeserializeObject<PostShop>(result);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorString = $"There was a error getting our Shop: {ex.Message}";
+            }
+
+            return shopFound;
         }
     }
 }

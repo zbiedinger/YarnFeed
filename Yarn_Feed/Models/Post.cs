@@ -13,6 +13,7 @@ namespace Yarn_Feed.Models
         public int Id { get; set; }
         public string PostContent { get; set; }
         public string TypeOfPost { get; set; }
+        public string PostedByUserName { get; set; }
 
         [ForeignKey("PostProject")]
         public int? ProjectId { get; set; }
