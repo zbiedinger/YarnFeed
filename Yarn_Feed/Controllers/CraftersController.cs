@@ -20,17 +20,6 @@ namespace Yarn_Feed.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        //string currentToken = "mPigXpN5CR3zjHsfeKR3i4-LaBG4u1kgO10vW62kZdU.zz-iaS3Q5lH9FIghl4VGNN6LV3dqfyfUES8DzaHJA18";
-        //string authURL = "https://www.ravelry.com/oauth2/auth";
-        //string accessTokenURL = "https://www.ravelry.com/oauth2/token";
-        //string scope = "offline";
-        //string clientId = "4fd8d5f73981b822d5c51a634e441d28";
-        //string clientSecret = "QPNGys9Ld1Y4T/gtW5c/pHQXnzNiK0iifW39IyDD";
-
-        //CurrentUser currentUser = null;
-        string errorString;
-
-
         public CraftersController(ApplicationDbContext context)
         {
             _context = context;
@@ -48,12 +37,11 @@ namespace Yarn_Feed.Controllers
 
             if(crafter.LastLoggedIn < DateTime.Now.AddMinutes(-5))
             {
-                UpdateLoginTime();
+                await UpdateLoginTime(crafter);
             }
             
 
             string ShopNumber = "2588";
-
             PostShop postShop = await GetShopAPIAsync(ShopNumber);
 
             PostViewModel postedGoodies = await GetRecentPosts();
@@ -237,13 +225,13 @@ namespace Yarn_Feed.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var crafter = _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
-            List<Post> newPosts = GetPostsAsync();
-            List<PostPattern> postedPatterens = GetPatternsAsync();
-            List<PostProject> postedProjects = GetProjectsAsync();
-            List<PostShop> postedShops = GetShopsAsync();
-            List<PostStash> postedStashs = GetStashAsync();
-            List<Like> postedLikes = GetLikesAsync();
-            List<Comment> postedComments = GetCommentsAsync();
+            List<Post> newPosts = await GetPostsAsync();
+            List<PostPattern> postedPatterens = await GetPatternsAsync();
+            List<PostProject> postedProjects = await GetProjectsAsync();
+            List<PostShop> postedShops = await GetShopsAsync();
+            List<PostStash> postedStashs = await GetStashAsync();
+            List<Like> postedLikes = await GetLikesAsync();
+            List<Comment> postedComments = await GetCommentsAsync();
 
             PostViewModel postedGoodies = new PostViewModel()
             {
@@ -259,38 +247,38 @@ namespace Yarn_Feed.Controllers
             return postedGoodies;
         }
 
-        public List<Post> GetPostsAsync()
+        public async Task<List<Post>> GetPostsAsync()
         {
             List<Post> posts = null;
             return posts;
         }
 
-        public List<PostPattern> GetPatternsAsync()
+        public async Task<List<PostPattern>> GetPatternsAsync()
         {
             List<PostPattern> patterns = null;
             return patterns;
         }
-        public List<PostProject> GetProjectsAsync()
+        public async Task<List<PostProject>> GetProjectsAsync()
         {
             List<PostProject> projects = null;
             return projects;
         }
-        public List<PostShop> GetShopsAsync()
+        public async Task<List<PostShop>> GetShopsAsync()
         {
             List<PostShop> shops = null;
             return shops;
         }
-        public List<PostStash> GetStashAsync()
+        public async Task<List<PostStash>> GetStashAsync()
         {
             List<PostStash> stashs = null;
             return stashs;
         }
-        public List<Like> GetLikesAsync()
+        public async Task<List<Like>> GetLikesAsync()
         {
             List<Like> likes = null;
             return likes;
         }
-        public List<Comment> GetCommentsAsync()
+        public async Task<List<Comment>> GetCommentsAsync()
         {
             List<Comment> comments = null;
             return comments;
@@ -315,19 +303,19 @@ namespace Yarn_Feed.Controllers
             }
             catch (Exception ex)
             {
-                errorString = $"There was a error getting our Shop: {ex.Message}";
+                string errorString = $"There was a error getting our Shop: {ex.Message}";
             }
             return currentUser;
         }
 
         public async Task<PostShop> GetShopAPIAsync(string shopId)
-        {
+        { 
             PostShop shopFound = null;
             try
             {
                 using (var httpclient = new HttpClient())
                 {
-                    using (var request = new HttpRequestMessage(new HttpMethod("get"), "https://api.ravelry.com/shops/" + "2588" + ".json?include=brands+ad"))
+                    using (var request = new HttpRequestMessage(new HttpMethod("get"), "https://api.ravelry.com/shops/" + shopId + ".json?include=brands+ad"))
                     {
                         var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes(ApiKeys.GetUsername() + ":" + ApiKeys.GetPassword()));
                         request.Headers.TryAddWithoutValidation("authorization", $"basic {base64authorization}");
@@ -340,7 +328,7 @@ namespace Yarn_Feed.Controllers
             }
             catch (Exception ex)
             {
-                errorString = $"There was a error getting our Shop: {ex.Message}";
+                string errorString = $"There was a error getting our Shop: {ex.Message}";
             }
 
             return shopFound;

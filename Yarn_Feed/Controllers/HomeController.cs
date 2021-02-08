@@ -23,12 +23,6 @@ namespace Yarn_Feed.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        string currentToken = "1eKyKhrGpPfwG6zyV8WxNQe3Ij5r9ecPmw9FKoLHSq4.E1tt5CPa2aI4C8XjcVCPjb1j42vO0R-EphAlWO6jyKY";
-        string authURL = "https://www.ravelry.com";
-        string accessTokenURL = "https://www.ravelry.com/oauth2/token";
-        string scope = "offline";
-        string clientId = "4fd8d5f73981b822d5c51a634e441d28";
-        string clientSecret = "QPNGys9Ld1Y4T/gtW5c/pHQXnzNiK0iifW39IyDD";
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -38,31 +32,31 @@ namespace Yarn_Feed.Controllers
         public async Task<IActionResult> Index()
         {
 
-            PostShop shopFound = null;
-            PostProject projectFound = null;
-            CurrentUser currentUser;
-            ApiToken apiToken;
-            string errorString;
+            //PostShop shopFound = null;
+            //PostProject projectFound = null;
+            //CurrentUser currentUser;
+            //ApiToken apiToken;
+            //string errorString;
 
-            try
-            {
-                using (var httpclient = new HttpClient())
-                {
-                    using (var request = new HttpRequestMessage(new HttpMethod("get"), "https://api.ravelry.com/shops/" + "2588" + ".json?include=brands+ad"))
-                    {
-                        var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes(ApiKeys.GetUsername() + ":" + ApiKeys.GetPassword()));
-                        request.Headers.TryAddWithoutValidation("authorization", $"basic {base64authorization}");
+            //try
+            //{
+            //    using (var httpclient = new HttpClient())
+            //    {
+            //        using (var request = new HttpRequestMessage(new HttpMethod("get"), "https://api.ravelry.com/shops/" + "2588" + ".json?include=brands+ad"))
+            //        {
+            //            var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes(ApiKeys.GetUsername() + ":" + ApiKeys.GetPassword()));
+            //            request.Headers.TryAddWithoutValidation("authorization", $"basic {base64authorization}");
 
-                        var response = await httpclient.SendAsync(request);
-                        string result = await response.Content.ReadAsStringAsync();
-                        shopFound = JsonConvert.DeserializeObject<PostShop>(result);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorString = $"There was a error getting our Shop: {ex.Message}";
-            }
+            //            var response = await httpclient.SendAsync(request);
+            //            string result = await response.Content.ReadAsStringAsync();
+            //            shopFound = JsonConvert.DeserializeObject<PostShop>(result);
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    errorString = $"There was a error getting our Shop: {ex.Message}";
+            //}
 
 
 
