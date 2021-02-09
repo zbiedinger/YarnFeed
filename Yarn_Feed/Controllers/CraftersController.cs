@@ -54,7 +54,9 @@ namespace Yarn_Feed.Controllers
 
             //PostViewModel postedGoodies = await GetRecentPosts();
 
-            return View(crafter);
+            PostViewModel myPostsview = await GetRecentPosts(crafter);
+
+            return View(myPostsview);
         }
 
         // GET: Crafters/Details/5
@@ -228,10 +230,8 @@ namespace Yarn_Feed.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<PostViewModel> GetRecentPosts()
+        public async Task<PostViewModel> GetRecentPosts(Crafter crafter)
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var crafter = _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             List<Post> newPosts = await GetPostsAsync();
             List<PostPattern> postedPatterens = await GetPatternsAsync();
             List<PostProject> postedProjects = await GetProjectsAsync();
@@ -242,6 +242,7 @@ namespace Yarn_Feed.Controllers
 
             PostViewModel postedGoodies = new PostViewModel()
             {
+                Crafter = crafter,
                 NewPosts = newPosts,
                 PostedPatterens = postedPatterens,
                 PostedProjects = postedProjects,

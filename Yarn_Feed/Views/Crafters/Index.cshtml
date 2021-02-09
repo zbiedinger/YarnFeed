@@ -1,47 +1,202 @@
-﻿@*@model Yarn_Feed.ViewModels.PostViewModel*@
-@model Yarn_Feed.Models.Crafter
+﻿@model Yarn_Feed.ViewModels.PostViewModel
+@*@model Yarn_Feed.Models.Crafter*@
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+
+<div class="container-fluid text-center">
+    <div class="row">
+        <div class="col-sm-3 well" style="background-color: #25434C">
+            <div class="well" style="background-color: #F3F4F0">
+                <p><strong><a href="#" style="color: #DE7568">My Profile</a></strong></p>
+                <img src="@Model.Crafter.PhotoSmallURL" class="rounded" height="65" width="65" alt="Avatar">
+            </div>
+            <div class="well" style="background-color: #F3F4F0">
+                <p><strong><a href="#" style="color: #DE7568">Interests</a></strong></p>
+                <p>
+                    <span class="label" style="color: #000000">News</span>
+                    <span class="label" style="color: #000000">Labels</span>
+                    <span class="label" style="color: #000000">Yarn</span>
+                    <span class="label" style="color: #000000">Gaming</span>
+                    <span class="label" style="color: #000000">Friends</span>
+                </p>
+            </div>
+            <div class="well" style="background-color: #F3F4F0">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                <p><strong>Ey!</strong></p>
+                People are looking at your profile. Find out who.
+            </div>
+            <div class="well" style="background-color: #F3F4F0">
+                <p><a href="#" style="color: #DE7568">Link</a></p>
+                <p><a href="#"style="color: #DE7568">Link</a></p>
+                <p><a href="#"style="color: #DE7568">Link</a></p>
+            </div>
+        </div>
+        <div class="col-sm-7">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default text-left" style="background-color: #F3F4F0">
+                        <div class="panel-body">
+                            <form action="/" method="post">
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1">Create post</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                </div>
+                                <button type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
+                                    Project
+                                </button>
+                                <button type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
+                                    Stash
+                                </button>
+                                <button type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
+                                    Pattern
+                                </button>
+                                <button type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
+                                    Shop
+                                </button>
+                                <button type="submit" class="btn btn-default btn-sm" style="background-color: #DE7568">
+                                    <span class="glyphicon glyphicon-share"></span>Share
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3" style="padding-right: 7px">
+                    <div class="well" style="background-color: #F3F4F0">
+                        <p><strong>John</strong></p>
+                        <img src="@Model.Crafter.PhotoSmallURL" class="rounded" height="55" width="55" alt="Avatar">
+                    </div>
+                </div>
+                <div class="col-sm-9" style="padding-left: 0">
+                    <div class="well" style="background-color: #F3F4F0">
+                        <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
+                        <button type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
+                            <span class="glyphicon glyphicon-thumbs-up"></span> Like
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm" style="background-color: #DE7568">
+                            <span class="glyphicon glyphicon-comment"></span> Comment
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3" style="padding-right: 7px">
+                    <div class="well" style="background-color: #F3F4F0">
+                        <p>Bo</p>
+                        <img src="@Model.Crafter.PhotoTinyURL" class="rounded" height="55" width="55" alt="Avatar">
+                    </div>
+                </div>
+                <div class="col-sm-9" style="padding-left: 0">
+                    <div class="well" style="background-color: #F3F4F0">
+                        <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
+                        <button type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
+                            <span class="glyphicon glyphicon-thumbs-up"></span> Like
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm" style="background-color: #DE7568">
+                            <span class="glyphicon glyphicon-comment"></span> Comment
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3" style="padding-right: 7px">
+                    <div class="well" style="background-color: #F3F4F0">
+                        <p>Jane</p>
+                        <img src="bandmember.jpg" class="img-circle" height="55" width="55" alt="Avatar">
+                    </div>
+                </div>
+                <div class="col-sm-9" style="padding-left: 0">
+                    <div class="well" style="background-color: #F3F4F0">
+                        <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
+                        <button type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
+                            <span class="glyphicon glyphicon-thumbs-up"></span> Like
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm" style="background-color: #DE7568">
+                            <span class="glyphicon glyphicon-comment"></span> Comment
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3" style="padding-right: 7px">
+                    <div class="well" style="background-color: #F3F4F0">
+                        <p>Anja</p>
+                        <img src="bird.jpg" class="img-circle" height="55" width="55" alt="Avatar">
+                    </div>
+                </div>
+                <div class="col-sm-9" style="padding-left: 0">
+                    <div class="well" style="background-color: #F3F4F0">
+                        <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
+                        <button type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
+                            <span class="glyphicon glyphicon-thumbs-up"></span> Like
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm" style="background-color: #DE7568">
+                            <span class="glyphicon glyphicon-comment"></span> Comment
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-2 well" style="background-color: #25434C">
+            <div class="thumbnail" style="background-color: #F3F4F0">
+                <img src="/Images/splash_balloon-sheep-8bpp.png" alt="Paris" width="400" height="300">
+            </div>
+            <div class="well" style="padding: 2%; background-color: #F3F4F0">
+                <img src="/Images/2_Feat_Knitting_Patt_Feb_2021.jpg" class="img-fluid rounded">
+            </div>
+            <div class="well" style="padding: 2%; background-color: #F3F4F0">
+                <img src="/Images/feat-source_feb_21.png" class="img-fluid rounded">
+            </div>
+            <div class="well" style="padding: 2%; background-color: #F3F4F0">
+                <img src="/Images/Featured_Pattern__Beeswax_Scarf_-3.jpg" class="img-fluid rounded">
+            </div>
+        </div>
+    </div>
+</div>
+
 <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.IdentityUserId)
+                    @Html.DisplayNameFor(model => model.Crafter.IdentityUserId)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.RavelryUsername)
+                    @Html.DisplayNameFor(model => model.Crafter.RavelryUsername)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.RavelryId)
+                    @Html.DisplayNameFor(model => model.Crafter.RavelryId)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.LastLoggedIn)
+                    @Html.DisplayNameFor(model => model.Crafter.LastLoggedIn)
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>
-                    @Html.DisplayFor(model => model.IdentityUserId)
+                    @Html.DisplayFor(model => model.Crafter.IdentityUserId)
                 </td>
                 <td>
-                    @Html.DisplayFor(model => model.RavelryUsername)
+                    @Html.DisplayFor(model => model.Crafter.RavelryUsername)
                 </td>
                 <td>
-                    @Html.DisplayFor(model => model.RavelryId)
+                    @Html.DisplayFor(model => model.Crafter.RavelryId)
                 </td>
                 <td>
-                    @Html.DisplayFor(model => model.LastLoggedIn)
+                    @Html.DisplayFor(model => model.Crafter.LastLoggedIn)
                 </td>
             </tr>
         </tbody>
     </table>
-    <img src="@Model.PhotoTinyURL" alt="Alternate Text" />
+    <img src="@Model.Crafter.PhotoTinyURL" alt="Alternate Text" />
