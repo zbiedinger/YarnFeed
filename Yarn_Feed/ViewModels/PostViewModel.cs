@@ -10,6 +10,9 @@ namespace Yarn_Feed.ViewModels
     { 
         public Crafter Crafter { get; set; }
 
+        public string postBlurb { get; set; }
+        public string sharableId { get; set; }
+
         public List<Post> NewPosts { get; set; }
         public List<PostPattern> PostedPatterens { get; set; }
         public List<PostProject> PostedProjects { get; set; }

@@ -42,10 +42,10 @@ namespace Yarn_Feed.Controllers
             }
 
             //string stashId = "18830802";
-            //PostStash postStash = await GetStashAPIAsync(crafter.RavelryUsername, stashId);
+            //PostStash postStash = await GetStashAPIAsync(stashId);
 
             //string projectNumber = "27233553";
-            //PostProject PostProject = await GetProjectAPIAsync(crafter.RavelryUsername, projectNumber);
+            //PostProject PostProject = await GetProjectAPIAsync(projectNumber);
 
             //string patternNumber = "124400";
             //PostPattern postPattern = await GetPatternAPIAsync(patternNumber);
@@ -58,6 +58,47 @@ namespace Yarn_Feed.Controllers
 
             return View(myPostsview);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> NewPost(string submitButton, string sharableId, string postBlurb) 
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var crafter = _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            Post createpost = new Post();
+            createpost.TypeOfPost = submitButton;
+            createpost.PostedByUserName = crafter.RavelryUsername;
+
+            switch (submitButton)
+            {
+                case "project":
+                    PostProject postProject = await GetProjectAPIAsync(sharableId);
+                    _context.Add(postProject);
+                    _context.Add(createpost);
+                    await _context.SaveChangesAsync();
+                    break;
+                case "pattern":
+                    PostPattern postPattern = await GetPatternAPIAsync(sharableId);
+                    _context.Add(postPattern);
+                    _context.Add(createpost);
+                    break;
+                case "shop":
+                    PostShop postShop = await GetShopAPIAsync(sharableId);
+                    _context.Add(postShop);
+                    _context.Add(createpost);
+                    break;
+                case "stash":
+                    PostStash postStash = await GetStashAPIAsync(sharableId);
+                    _context.Add(postStash);
+                    _context.Add(createpost);
+                    break;
+                default:
+                    //Something went wrong
+                    break;
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
 
         // GET: Crafters/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -318,14 +359,17 @@ namespace Yarn_Feed.Controllers
         }
 
         // Gets a stash item from Ravelry API from passed in ID and username using Oauth 2.0
-        public async Task<PostStash> GetStashAPIAsync(string userName, string stashId)
+        public async Task<PostStash> GetStashAPIAsync(string stashId)
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var crafter = _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             PostStash postStash = null;
+
             try
             {
                 using (var httpClient = new HttpClient())
                 {
-                    using (var request = new HttpRequestMessage(new HttpMethod("GET"), "https://api.ravelry.com/people/" + userName + "/stash/" + stashId + ".json?include=comments"))
+                    using (var request = new HttpRequestMessage(new HttpMethod("GET"), "https://api.ravelry.com/people/" + crafter.RavelryUsername + "/stash/" + stashId + ".json?include=comments"))
                     {
                         request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + ApiKeys.GetCurrentToken());
 
@@ -343,14 +387,17 @@ namespace Yarn_Feed.Controllers
         }
 
         // Gets a project from Ravelry API from passed in ID and username using Oauth 2.0
-        public async Task<PostProject> GetProjectAPIAsync(string userName, string projectId)
+        public async Task<PostProject> GetProjectAPIAsync(string projectId)
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var crafter = _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             PostProject postProject = null;
+
             try
             {
                 using (var httpClient = new HttpClient())
                 {
-                    using (var request = new HttpRequestMessage(new HttpMethod("GET"), "https://api.ravelry.com/projects/" + userName + "/" + projectId + ".json?include=comments"))
+                    using (var request = new HttpRequestMessage(new HttpMethod("GET"), "https://api.ravelry.com/projects/" + crafter.RavelryUsername + "/" + projectId + ".json?include=comments"))
                     {
                         request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + ApiKeys.GetCurrentToken());
 

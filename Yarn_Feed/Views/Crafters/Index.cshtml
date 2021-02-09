@@ -26,9 +26,7 @@
                 </p>
             </div>
             <div class="well" style="background-color: #F3F4F0">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                <p><strong>Ey!</strong></p>
-                People are looking at your profile. Find out who.
+                    <img src="/Images/splash_balloon-alpaca-8bpp.png" class="img-fluid">
             </div>
             <div class="well" style="background-color: #F3F4F0">
                 <p><a href="#" style="color: #DE7568">Link</a></p>
@@ -41,26 +39,23 @@
                 <div class="col-sm-12">
                     <div class="panel panel-default text-left" style="background-color: #F3F4F0">
                         <div class="panel-body">
-                            <form action="/" method="post">
+                            <form asp-action="NewPost" method="post">
                                 <div class="form-group">
-                                    <label for="exampleFormControlTextarea1">Create post</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    <label asp-for="postBlurb">Create post</label>
+                                    <textarea asp-for="postBlurb" class="form-control" id="postBlurb" rows="3" placeholder="What's on your mind?"></textarea>
                                 </div>
-                                <button type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
-                                    Project
-                                </button>
-                                <button type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
-                                    Stash
-                                </button>
-                                <button type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
-                                    Pattern
-                                </button>
-                                <button type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
-                                    Shop
-                                </button>
-                                <button type="submit" class="btn btn-default btn-sm" style="background-color: #DE7568">
-                                    <span class="glyphicon glyphicon-share"></span>Share
-                                </button>
+                                <div class="form-group">
+                                    <input asp-for="sharableId" class="form-control" id="sharableId" placeholder="ID of Sharable">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" asp-route-submitButton="project" name="action:project" class="btn btn-default btn-sm" style="background-color: #ABEDE3">Project</button>
+                                    <button type="submit" asp-route-submitButton="stash" name="action:stash" class="btn btn-default btn-sm" style="background-color: #ABEDE3">Stash</button>
+                                    <button type="submit" asp-route-submitButton="pattern" name="action:propatternject" class="btn btn-default btn-sm" style="background-color: #ABEDE3">Pattern</button>
+                                    <button type="submit" asp-route-submitButton="shop" name="action:shop" class="btn btn-default btn-sm" style="background-color: #ABEDE3">Shop</button>
+                                    <button type="submit" asp-route-submitButton="blurb" name="action:blurb" class="btn btn-default btn-sm" style="background-color: #DE7568">
+                                        <span class="glyphicon glyphicon-share"></span>Share
+                                    </button>
+                                 </div>
                             </form>
                         </div>
                     </div>
