@@ -10,7 +10,7 @@ using Yarn_Feed.Data;
 namespace Yarn_Feed.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210204234147_Initial")]
+    [Migration("20210208200136_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,15 +50,15 @@ namespace Yarn_Feed.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f9882d2a-1cce-4bc4-94fd-0a090a71ef98",
-                            ConcurrencyStamp = "9ad25386-27eb-488e-884e-a92e2c4b3df1",
+                            Id = "bed35b6e-b493-4ec1-a23f-778bc7197b9e",
+                            ConcurrencyStamp = "aaf268f0-fd4f-44d6-90c8-b2ba6710725d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b1211c9e-b025-4e4a-a1e7-07a0d9d01ee1",
-                            ConcurrencyStamp = "26d3c870-7750-44ba-ae60-ea29a4fb8ccf",
+                            Id = "4c4878b2-b62a-4d93-aac6-ffae59b76e27",
+                            ConcurrencyStamp = "35a5df17-4321-4d7c-a2db-768ae5f67e9b",
                             Name = "Crafter",
                             NormalizedName = "CRAFTER"
                         });
@@ -231,6 +231,44 @@ namespace Yarn_Feed.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Yarn_Feed.Models.Admin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CurrentToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdentityUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("LastLoggedIn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RavelryId")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("ShowLastLoggin")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("TokenUpdated")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdentityUserId");
+
+                    b.ToTable("Admin");
                 });
 
             modelBuilder.Entity("Yarn_Feed.Models.Comment", b =>
@@ -828,6 +866,9 @@ namespace Yarn_Feed.Migrations
                     b.Property<string>("PostContent")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PostedByUserName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("ProjectId")
                         .HasColumnType("int");
 
@@ -1357,6 +1398,13 @@ namespace Yarn_Feed.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Yarn_Feed.Models.Admin", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
+                        .WithMany()
+                        .HasForeignKey("IdentityUserId");
                 });
 
             modelBuilder.Entity("Yarn_Feed.Models.Comment", b =>

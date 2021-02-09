@@ -219,6 +219,32 @@ namespace Yarn_Feed.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Admin",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdentityUserId = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    RavelryId = table.Column<int>(nullable: true),
+                    CurrentToken = table.Column<string>(nullable: true),
+                    TokenUpdated = table.Column<int>(nullable: true),
+                    LastLoggedIn = table.Column<DateTime>(nullable: true),
+                    ShowLastLoggin = table.Column<bool>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Admin", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Admin_AspNetUsers_IdentityUserId",
+                        column: x => x.IdentityUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -790,6 +816,7 @@ namespace Yarn_Feed.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PostContent = table.Column<string>(nullable: true),
                     TypeOfPost = table.Column<string>(nullable: true),
+                    PostedByUserName = table.Column<string>(nullable: true),
                     ProjectId = table.Column<int>(nullable: true),
                     PatternId = table.Column<int>(nullable: true),
                     StashId = table.Column<int>(nullable: true),
@@ -900,12 +927,17 @@ namespace Yarn_Feed.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "f9882d2a-1cce-4bc4-94fd-0a090a71ef98", "9ad25386-27eb-488e-884e-a92e2c4b3df1", "Admin", "ADMIN" });
+                values: new object[] { "bed35b6e-b493-4ec1-a23f-778bc7197b9e", "aaf268f0-fd4f-44d6-90c8-b2ba6710725d", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "b1211c9e-b025-4e4a-a1e7-07a0d9d01ee1", "26d3c870-7750-44ba-ae60-ea29a4fb8ccf", "Crafter", "CRAFTER" });
+                values: new object[] { "4c4878b2-b62a-4d93-aac6-ffae59b76e27", "35a5df17-4321-4d7c-a2db-768ae5f67e9b", "Crafter", "CRAFTER" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Admin_IdentityUserId",
+                table: "Admin",
+                column: "IdentityUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -1124,6 +1156,9 @@ namespace Yarn_Feed.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Admin");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 

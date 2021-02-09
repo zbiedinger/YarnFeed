@@ -1,4 +1,5 @@
-﻿@model Yarn_Feed.Models.Crafter
+﻿@*@model Yarn_Feed.ViewModels.PostViewModel*@
+@model Yarn_Feed.Models.Crafter
 
 @{
     ViewData["Title"] = "Index";
@@ -10,68 +11,37 @@
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdentityUserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RavelryUsername)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RavelryId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CurrentToken)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TokenUpdated)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhotoTinyURL)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhotoSmallURL)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastLoggedIn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ShowLastLoggin)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                @Html.DisplayFor(model => model.IdentityUserId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.RavelryUsername)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.RavelryId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.CurrentToken)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.TokenUpdated)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.PhotoTinyURL)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.PhotoSmallURL)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.LastLoggedIn)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.ShowLastLoggin)
-            </td>
-        </tr>
-
-    </tbody>
-</table>
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.IdentityUserId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RavelryUsername)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RavelryId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastLoggedIn)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.IdentityUserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.RavelryUsername)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.RavelryId)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.LastLoggedIn)
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <img src="@Model.PhotoTinyURL" alt="Alternate Text" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,12 +40,19 @@ namespace Yarn_Feed.Controllers
             {
                 await UpdateLoginTime(crafter);
             }
-            
 
-            string ShopNumber = "2588";
-            PostShop postShop = await GetShopAPIAsync(ShopNumber);
+            //string stashId = "18830802";
+            //PostStash postStash = await GetStashAPIAsync(crafter.RavelryUsername, stashId);
 
-            PostViewModel postedGoodies = await GetRecentPosts();
+            //string projectNumber = "27233553";
+            //PostProject PostProject = await GetProjectAPIAsync(crafter.RavelryUsername, projectNumber);
+
+            //string patternNumber = "124400";
+            //PostPattern postPattern = await GetPatternAPIAsync(patternNumber);
+            //string ShopNumber = "2588";
+            //PostShop postShop = await GetShopAPIAsync(ShopNumber);
+
+            //PostViewModel postedGoodies = await GetRecentPosts();
 
             return View(crafter);
         }
@@ -197,8 +205,7 @@ namespace Yarn_Feed.Controllers
             return _context.Crafter.Any(e => e.Id == id);
         }
 
-        //SHould updatet hte lastloggin time every time they are braught to the index page.
-        //looping issue
+        // Updates the lastloggin time
         public async Task<IActionResult> UpdateLoginTime(Crafter crafter)
         {
             try
@@ -284,6 +291,7 @@ namespace Yarn_Feed.Controllers
             return comments;
         }
 
+        // Gets a current signedin user from Ravelry API using Oauth 2.0
         public async Task<CurrentUser> GetCurrentUserAPIAsync()
         {
             CurrentUser currentUser = null;
@@ -308,6 +316,57 @@ namespace Yarn_Feed.Controllers
             return currentUser;
         }
 
+        // Gets a stash item from Ravelry API from passed in ID and username using Oauth 2.0
+        public async Task<PostStash> GetStashAPIAsync(string userName, string stashId)
+        {
+            PostStash postStash = null;
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var request = new HttpRequestMessage(new HttpMethod("GET"), "https://api.ravelry.com/people/" + userName + "/stash/" + stashId + ".json?include=comments"))
+                    {
+                        request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + ApiKeys.GetCurrentToken());
+
+                        var response = await httpClient.SendAsync(request);
+                        string result = await response.Content.ReadAsStringAsync();
+                        postStash = JsonConvert.DeserializeObject<PostStash>(result);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorString = $"There was a error getting our Shop: {ex.Message}";
+            }
+            return postStash;
+        }
+
+        // Gets a project from Ravelry API from passed in ID and username using Oauth 2.0
+        public async Task<PostProject> GetProjectAPIAsync(string userName, string projectId)
+        {
+            PostProject postProject = null;
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var request = new HttpRequestMessage(new HttpMethod("GET"), "https://api.ravelry.com/projects/" + userName + "/" + projectId + ".json?include=comments"))
+                    {
+                        request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + ApiKeys.GetCurrentToken());
+
+                        var response = await httpClient.SendAsync(request);
+                        string result = await response.Content.ReadAsStringAsync();
+                        postProject = JsonConvert.DeserializeObject<PostProject>(result);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorString = $"There was a error getting our Shop: {ex.Message}";
+            }
+            return postProject;
+        }
+
+        // Gets a shop from Ravelry API from passed in ID using Basic Oauth
         public async Task<PostShop> GetShopAPIAsync(string shopId)
         { 
             PostShop shopFound = null;
@@ -332,6 +391,107 @@ namespace Yarn_Feed.Controllers
             }
 
             return shopFound;
+        }
+
+        // Gets a pattern from Ravelry API from passed in ID using Basic Oauth
+        public async Task<PostPattern> GetPatternAPIAsync(string PatternId)
+        {
+            PostPattern patternFound = null;
+            try
+            {
+                using (var httpclient = new HttpClient())
+                {
+                    using (var request = new HttpRequestMessage(new HttpMethod("get"), "https://api.ravelry.com/patterns/" + PatternId + ".json"))
+                    {
+                        var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes(ApiKeys.GetUsername() + ":" + ApiKeys.GetPassword()));
+                        request.Headers.TryAddWithoutValidation("authorization", $"basic {base64authorization}");
+
+                        var response = await httpclient.SendAsync(request);
+                        string result = await response.Content.ReadAsStringAsync();
+                        patternFound = JsonConvert.DeserializeObject<PostPattern>(result);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorString = $"There was a error getting our Shop: {ex.Message}";
+            }
+
+            return patternFound;
+        }
+
+        public static async Task<string> GetAuthorizeToken()
+        {
+            // Initialization.  
+            string responseObj = string.Empty;
+
+            // Posting.  
+            using (var client = new HttpClient())
+            {
+                // Setting Base address.  
+                client.BaseAddress = new Uri("http://localhost:3097/");
+
+                // Setting content type.  
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                 
+                // Initialization.  
+                HttpResponseMessage response = new HttpResponseMessage();
+                List<KeyValuePair<string, string>> allIputParams = new List<KeyValuePair<string, string>>();
+
+                // Convert Request Params to Key Value Pair.  
+                 
+                // URL Request parameters.  
+                HttpContent requestParams = new FormUrlEncodedContent(allIputParams);
+
+                // HTTP POST  
+                response = await client.PostAsync("Token", requestParams).ConfigureAwait(false);
+
+                // Verification  
+                if (response.IsSuccessStatusCode)
+                {
+                    // Reading Response.  
+                    
+                }
+            }
+
+            return responseObj;
+        }
+
+        public static async Task<string> GetInfo(string authorizeToken)
+        {
+            // Initialization.  
+            string responseObj = string.Empty;
+
+            // HTTP GET.  
+            using (var client = new HttpClient())
+            {
+                // Initialization  
+                string authorization = authorizeToken;
+
+                // Setting Authorization.  
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authorization);
+
+                // Setting Base address.  
+                client.BaseAddress = new Uri("https://localhost:44334/");
+
+                // Setting content type.  
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Initialization.  
+                HttpResponseMessage response = new HttpResponseMessage();
+
+                // HTTP GET  
+                response = await client.GetAsync("api/WebApi").ConfigureAwait(false);
+
+                // Verification  
+                if (response.IsSuccessStatusCode)
+                {
+                    // Reading Response.  
+                     
+                }
+            }
+
+            return responseObj;
         }
     }
 }

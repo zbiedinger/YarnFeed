@@ -48,15 +48,15 @@ namespace Yarn_Feed.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4cf99c16-97df-45f2-9d3c-a0fdab9fedbf",
-                            ConcurrencyStamp = "25905c73-b67a-4703-bb7e-83badef0f25c",
+                            Id = "bed35b6e-b493-4ec1-a23f-778bc7197b9e",
+                            ConcurrencyStamp = "aaf268f0-fd4f-44d6-90c8-b2ba6710725d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "a0fe706d-6553-4f67-9b1d-03251f1a0c9e",
-                            ConcurrencyStamp = "0fa77407-4606-48e6-96e7-578e2c725e9d",
+                            Id = "4c4878b2-b62a-4d93-aac6-ffae59b76e27",
+                            ConcurrencyStamp = "35a5df17-4321-4d7c-a2db-768ae5f67e9b",
                             Name = "Crafter",
                             NormalizedName = "CRAFTER"
                         });
