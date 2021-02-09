@@ -61,33 +61,33 @@ namespace Yarn_Feed.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> NewPost(string submitButton, string sharableId, string postBlurb) 
+        public async Task<IActionResult> NewPost(string sharableType, string sharableId, string postBlurb) 
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var crafter = _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             Post createpost = new Post();
-            createpost.TypeOfPost = submitButton;
+            createpost.TypeOfPost = sharableType;
             createpost.PostedByUserName = crafter.RavelryUsername;
 
-            switch (submitButton)
+            switch (sharableType)
             {
-                case "project":
+                case "Project":
                     PostProject postProject = await GetProjectAPIAsync(sharableId);
                     _context.Add(postProject);
                     _context.Add(createpost);
                     await _context.SaveChangesAsync();
                     break;
-                case "pattern":
+                case "Pattern":
                     PostPattern postPattern = await GetPatternAPIAsync(sharableId);
                     _context.Add(postPattern);
                     _context.Add(createpost);
                     break;
-                case "shop":
+                case "Shop":
                     PostShop postShop = await GetShopAPIAsync(sharableId);
                     _context.Add(postShop);
                     _context.Add(createpost);
                     break;
-                case "stash":
+                case "Stash":
                     PostStash postStash = await GetStashAPIAsync(sharableId);
                     _context.Add(postStash);
                     _context.Add(createpost);

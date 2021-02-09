@@ -12,6 +12,7 @@ namespace Yarn_Feed.ViewModels
 
         public string postBlurb { get; set; }
         public string sharableId { get; set; }
+        public string sharableType { get; set; }
 
         public List<Post> NewPosts { get; set; }
         public List<PostPattern> PostedPatterens { get; set; }
