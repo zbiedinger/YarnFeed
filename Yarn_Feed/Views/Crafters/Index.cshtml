@@ -26,12 +26,12 @@
                 </p>
             </div>
             <div class="well" style="background-color: #F3F4F0">
-                    <img src="/Images/splash_balloon-alpaca-8bpp.png" class="img-fluid">
+                <img src="/Images/splash_balloon-alpaca-8bpp.png" class="img-fluid">
             </div>
             <div class="well" style="background-color: #F3F4F0">
                 <p><a href="#" style="color: #DE7568">Create New Project</a></p>
-                <p><a href="#"style="color: #DE7568">Find New Yarn</a></p>
-                <p><a href="#"style="color: #DE7568">Search for Friends</a></p>
+                <p><a href="#" style="color: #DE7568">Find New Yarn</a></p>
+                <p><a href="#" style="color: #DE7568">Search for Friends</a></p>
             </div>
         </div>
         <div class="col-sm-7">
@@ -66,7 +66,127 @@
                     </div>
                 </div>
             </div>
+            @foreach (var post in Model.NewPosts)
+            {
+                <div class="row">
+                    <div class="col-sm-3" style="padding-right: 7px">
+                        <div class="well" style="background-color: #F3F4F0">
+                            <p><strong>@post.PostedByUserName</strong></p>
+                            <img src="@post.PostersPhoto" class="rounded" height="55" width="55" alt="Avatar">
+                        </div>
+                    </div>
+                    <div class="col-sm-9" style="padding-left: 0">
+                        <div class="well" style="background-color: #F3F4F0">
+                            <p>@post.PostContent</p>
+                            <div class="row">
+                                @if (post.TypeOfPost == "Shop")
+                                {
+                                    <div class="col-md-6">
+                                        <address>
+                                            <strong>@post.shop_name</strong><br>
+                                            @post.Address<br>
+                                            @post.City, @post.state @post.zip<br>
+                                            <abbr title="Phone">P:</abbr> @post.phone
+                                        </address>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="glyphicon glyphicon-home" style="font-size: 50px;"></span>
+                                    </div>
+                                }
+                                @if (post.TypeOfPost == "Pattern")
+                                {
+                                    <div class="col-md-6">
+                                        <img src="@post.shelved_url" class="rounded" height="100" alt="Avatar">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <address>
+                                            <strong>@post.pattern_name</strong><br>
+                                            Desgned: @post.pattern_author<br>
+                                            Projects made @post.projects_count people<br>
+                                            Difficulty: @post.difficulty_average out of 5
+                                        </address>
+                                    </div>
+                                }
+                                @if (post.TypeOfPost == "Project")
+                                {
+                                    <div class="col-md-6">
+                                        <img src="@post.shelved_url" class="rounded" height="100" alt="Avatar">
+                                    </div>
+                                    <div class="col-md-6 text-left">
+                                        <address>
+                                            <strong>@post.project_name</strong><br>
+                                            Pattern: @post.pattern_name<br>
+                                            Started: @post.started<br>
+                                            Progress: @post.progress%
+                                        </address>
+                                    </div>
+                                }
+                                @if (post.TypeOfPost == "Stash")
+                                {
+                                    <div class="col-md-6">
+                                        @if (post.stash_has_photo)
+                                        {
+                                            <img src="@post.shelved_url" class="rounded" height="100" alt="Avatar">
 
+                                        }
+                                        else
+                                        {
+                                            <span class="glyphicon glyphicon-tag" style="font-size: 50px;"></span>
+                                        }
+                                    </div>
+                                    <div class="col-md-6 text-left">
+                                        <address>
+                                            <strong>@post.stash_name</strong><br>
+                                            Brand: @post.company_name<br>
+                                            Colorway: @post.colorway_name, @post.color_family_name<br>
+                                            Fiber Content: @post.fiber1Percent% @post.fiber1
+                                            @if (post.fiber2 != null)
+                                            {
+                                                <p>, @post.fiber2Percent % @post.fiber2</p>
+                                            }
+                                            @if (post.fiber3 != null)
+                                            {
+                                                <p>, @post.fiber3Percent % @post.fiber3</p>
+                                            }
+                                        </address>
+                                    </div>
+                                }
+                            </div>
+
+                            <form asp-action="LikePost" method="post">
+                                <input type="hidden" asp-for="@post.Id" />
+                                <button asp-action="LikePost" type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
+                                    <span class="glyphicon glyphicon-thumbs-up"></span> Like
+                                </button>
+                                <p> #oflike</p>
+                            </form>
+                            <div class="well" style="padding: 0; margin: 0">
+                                <form asp-action="AddComment" method="post">
+                                    <div class="form-group col-md-7">
+                                        <input asp-for="postBlurb" class="form-control" id="postBlurb" placeholder="Comment...">
+                                    </div>
+                                    <div class="form-group col-md-1">
+                                        <button type="button" class="btn" style="background-color:  #F0DE4D">
+                                            <span class="glyphicon glyphicon-comment"></span> Comment
+                                        </button>
+                                    </div>
+                                </form>
+                                <form asp-action="RePost" method="post">
+                                    <div class="form-group col-md-7">
+                                        <input asp-for="postBlurb" class="form-control" id="postBlurb" placeholder="Comment...">
+                                    </div>
+                                    <input type="hidden" asp-for="@post.Id" />
+                                    <div class="form-group col-md-1">
+                                        <button type="button" class="btn" style="background-color: #DE7568">
+                                            <span class="glyphicon glyphicon-share"></span> Repost
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
             <div class="row">
                 <div class="col-sm-3" style="padding-right: 7px">
                     <div class="well" style="background-color: #F3F4F0">
@@ -77,15 +197,33 @@
                 <div class="col-sm-9" style="padding-left: 0">
                     <div class="well" style="background-color: #F3F4F0">
                         <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
-                        <button type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
-                            <span class="glyphicon glyphicon-thumbs-up"></span> Like
-                        </button>
-                        <button type="button" class="btn btn-default btn-sm" style="background-color:  #F0DE4D">
-                            <span class="glyphicon glyphicon-comment"></span> Comment
-                        </button>
-                        <button type="button" class="btn btn-default btn-sm" style="background-color: #DE7568">
-                            <span class="glyphicon glyphicon-share"></span> Repost
-                        </button>
+                        <form asp-action="AddComment" method="post">
+                            <div class="form-group col-md-7">
+                                <input asp-for="postBlurb" class="form-control" id="postBlurb" placeholder="Comment...">
+                            </div>
+                            <div class="form-group col-md-1">
+                                <button type="button" class="btn" style="background-color:  #F0DE4D">
+                                    <span class="glyphicon glyphicon-comment"></span> Comment
+                                </button>
+                            </div>
+                        </form>
+                        <form asp-action="RePost" method="post">
+                            <div class="form-group col-md-7">
+                                <input asp-for="postBlurb" class="form-control" id="postBlurb" placeholder="Comment...">
+                            </div>
+                            <input type="hidden" asp-for="postId" />
+                            <div class="form-group col-md-1">
+                                <button type="button" class="btn" style="background-color: #DE7568">
+                                    <span class="glyphicon glyphicon-share"></span> Repost
+                                </button>
+                            </div>
+                        </form>
+                        <form asp-action="Comment" method="post">
+                            <input type="hidden" asp-for="postId" />
+                            <button asp-action="LikePost" type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
+                                <span class="glyphicon glyphicon-thumbs-up"></span> Like
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -149,6 +287,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
 
         <div class="col-sm-2 well" style="background-color: #25434C">

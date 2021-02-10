@@ -158,6 +158,28 @@ namespace Yarn_Feed.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // Creates a new entry in the comments table for a post
+        public async Task<IActionResult> AddComment(int postId, string postBlurb)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var crafter = _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            Post commentedPost = _context.Posts.Where(c => c.Id == postId).SingleOrDefault();
+            Comment newComment = new Comment();
+
+            newComment.PostId = commentedPost.Id;
+            newComment.CrafterId = crafter.Id;
+            newComment.IsRead = false;
+            newComment.IsFirstComment = true;
+            newComment.CommentContent = postBlurb;
+            newComment.CommentedAt = DateTime.Now;
+
+
+            _context.Update(newComment);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
         // Creates a new Crafter from the account found with API call
         public async Task<IActionResult> Create()
         {
@@ -234,19 +256,20 @@ namespace Yarn_Feed.Controllers
 
         public async Task<List<Post>> GetPostsAsync()
         {
-            List<Post> posts = null;
-            return posts;
+            List<Post> posts = _context.Posts.Where(c => c.Id > 0 ).ToList();
+
+            return posts.OrderByDescending(c => c.TimePosted).ToList();
         }
 
         public async Task<List<Like>> GetLikesAsync()
         {
-            List<Like> likes = null;
+            List<Like> likes = _context.Likes.Where(c => c.Id > 0).ToList();
             return likes;
         }
 
         public async Task<List<Comment>> GetCommentsAsync()
         {
-            List<Comment> comments = null;
+            List<Comment> comments = _context.Comments.Where(c => c.Id > 0).ToList();
             return comments;
         }
 
