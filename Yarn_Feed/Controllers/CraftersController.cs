@@ -72,26 +72,26 @@ namespace Yarn_Feed.Controllers
             {
                 case "Project":
                     PostProject postProject = await GetProjectAPIAsync(sharableId);
-                    Post foundStash = ConvertStash(postProject);
+                    Post foundStash = ConvertPost(postProject);
                     createpost = foundStash;
                     createpost.TypeOfPost = sharableType;
                     break;
                 case "Pattern":
                     PostPattern postPattern = await GetPatternAPIAsync(sharableId);
-                    Post foundPattern = ConvertStash(postPattern);
+                    Post foundPattern = ConvertPost(postPattern);
                     createpost = foundPattern;
                     createpost.TypeOfPost = sharableType;
                     break;
                 case "Shop":
                     PostShop postShop = await GetShopAPIAsync(sharableId);
-                    Post foundShop = ConvertStash(postShop);
+                    Post foundShop = ConvertPost(postShop);
                     createpost = foundShop;
                     createpost.TypeOfPost = sharableType;
 
                     break;
                 case "Stash":
                     PostStash postStash = await GetStashAPIAsync(sharableId);
-                    Post convertedStash = ConvertStash(postStash);
+                    Post convertedStash = ConvertPost(postStash);
                     createpost = convertedStash;
                     createpost.TypeOfPost = sharableType;
                     break;
@@ -363,31 +363,134 @@ namespace Yarn_Feed.Controllers
             return patternFound;
         }
 
-        public Post ConvertStash(PostProject postProject)
+        public Post ConvertPost(PostProject postProject)
         {
             Post newProjectItem = new Post();
+
+            newProjectItem.completed = postProject.project.completed;
+            newProjectItem.created_at = postProject.project.created_at;
+            newProjectItem.project_id = postProject.project.id;
+            newProjectItem.made_for = postProject.project.made_for;
+            newProjectItem.project_name = postProject.project.name;
+            newProjectItem.pattern_id = postProject.project.pattern_id;
+            newProjectItem.progress = postProject.project.progress;
+            newProjectItem.project_status_changed = postProject.project.project_status_changed;
+            newProjectItem.rating = postProject.project.rating;
+            newProjectItem.size = postProject.project.size;
+            newProjectItem.started = postProject.project.started;
+            newProjectItem.updated_at = postProject.project.updated_at;
+            newProjectItem.pattern_name = postProject.project.pattern_name;
+            newProjectItem.craft_name = postProject.project.craft_name;
+            newProjectItem.status_name = postProject.project.status_name;
+            newProjectItem.photos_count = postProject.project.photos_count;
+
+            if (postProject.project.photos_count > 0)
+            {
+                newProjectItem.shelved_url = postProject.project.photos[0].shelved_url;
+                newProjectItem.medium_url = postProject.project.photos[0].medium_url;
+            }
+            if (postProject.project.needle_sizes.Length >= 1)
+            {
+                newProjectItem.needle_sizes = postProject.project.needle_sizes[0].name;
+            }
+            if (postProject.project.needle_sizes.Length >= 2)
+            {
+                newProjectItem.needle_sizes2 = postProject.project.needle_sizes[1].name;
+            }
+            if (postProject.project.needle_sizes.Length >= 3)
+            {
+                newProjectItem.needle_sizes3 = postProject.project.needle_sizes[2].name;
+            }
 
             return newProjectItem;
         }
 
-        public Post ConvertStash(PostPattern postPattern)
+        public Post ConvertPost(PostPattern postPattern)
         {
             Post newPatternItem = new Post();
+
+            newPatternItem.currency = postPattern.pattern.currency;
+            newPatternItem.difficulty_average = postPattern.pattern.difficulty_average;
+            newPatternItem.difficulty_count = postPattern.pattern.difficulty_count;
+            newPatternItem.downloadable = postPattern.pattern.downloadable;
+            newPatternItem.favorites_count = postPattern.pattern.favorites_count;
+            newPatternItem.free = postPattern.pattern.free;
+            newPatternItem.pattern_id = postPattern.pattern.id;
+            newPatternItem.pattern_name = postPattern.pattern.name;
+            newPatternItem.price = postPattern.pattern.price;
+            newPatternItem.projects_count = postPattern.pattern.projects_count;
+            newPatternItem.queued_projects_count = postPattern.pattern.queued_projects_count;
+            newPatternItem.rating_average = postPattern.pattern.rating_average;
+            newPatternItem.rating_count = postPattern.pattern.rating_count;
+            newPatternItem.yardage = postPattern.pattern.yardage;
+            newPatternItem.yardage_max = postPattern.pattern.yardage_max;
+            newPatternItem.sizes_available = postPattern.pattern.sizes_available;
+            newPatternItem.product_id = postPattern.pattern.product_id;
+            newPatternItem.currency_symbol = postPattern.pattern.currency_symbol;
+            newPatternItem.gauge_description = postPattern.pattern.gauge_description;
+            newPatternItem.yarn_weight_description = postPattern.pattern.yarn_weight_description;
+            newPatternItem.yardage_description = postPattern.pattern.yardage_description;
+            newPatternItem.pattern_author = postPattern.pattern.pattern_author.name;
+
+            if (postPattern.pattern.photos.Length > 0)
+            {
+                newPatternItem.shelved_url = postPattern.pattern.photos[0].shelved_url;
+                newPatternItem.medium_url = postPattern.pattern.photos[0].medium_url;
+            }
+            if (postPattern.pattern.pattern_needle_sizes.Length >= 1)
+            {
+                newPatternItem.needle_sizes = postPattern.pattern.pattern_needle_sizes[0].name;
+            }
+            if (postPattern.pattern.pattern_needle_sizes.Length >= 2)
+            {
+                newPatternItem.needle_sizes2 = postPattern.pattern.pattern_needle_sizes[1].name;
+            }
+            if (postPattern.pattern.pattern_needle_sizes.Length >= 3)
+            {
+                newPatternItem.needle_sizes3 = postPattern.pattern.pattern_needle_sizes[2].name;
+            }
+
+            newPatternItem.needle_sizes = postPattern.pattern.pattern_needle_sizes[0].name;
+            newPatternItem.needle_sizes2 = postPattern.pattern.pattern_needle_sizes[1].name;
+            newPatternItem.needle_sizes3 = postPattern.pattern.pattern_needle_sizes[2].name;
+            newPatternItem.shelved_url = postPattern.pattern.photos[0].shelved_url;
+            newPatternItem.medium_url = postPattern.pattern.photos[0].medium_url;
 
             return newPatternItem;
         }
 
-        public Post ConvertStash(PostShop postShop)
+        public Post ConvertPost(PostShop postShop)
         {
             Post newShopItem = new Post();
+
+            newShopItem.Address = postShop.Shop.Address;
+            newShopItem.City = postShop.Shop.City;
+            newShopItem.facebook_page = postShop.Shop.facebook_page;
+            newShopItem.shop_id = postShop.Shop.id;
+            newShopItem.latitude = postShop.Shop.latitude;
+            newShopItem.location = postShop.Shop.location;
+            newShopItem.longitude = postShop.Shop.longitude;
+            newShopItem.shop_name = postShop.Shop.name;
+            newShopItem.shop_permalink = postShop.Shop.permalink;
+            newShopItem.phone = postShop.Shop.phone;
+            newShopItem.pos_online = postShop.Shop.pos_online;
+            newShopItem.ravelry_retailer = postShop.Shop.ravelry_retailer;
+            newShopItem.shop_email = postShop.Shop.shop_email;
+            newShopItem.twitter_id = postShop.Shop.twitter_id;
+            newShopItem.url = postShop.Shop.url;
+            newShopItem.zip = postShop.Shop.zip;
+            newShopItem.notes_html = postShop.Shop.notes_html;
+            newShopItem.country = postShop.Shop.country.name;
+            newShopItem.state = postShop.Shop.state.name;
 
             return newShopItem;
         }
 
         //Adds all the values from teh Stash table to Post
-        public Post ConvertStash(PostStash postStash)
+        public Post ConvertPost(PostStash postStash)
         {
             Post newStashItem = new Post();
+
             newStashItem.stash_has_photo = postStash.stash.has_photo;
             newStashItem.user_id = postStash.stash.user_id;
             newStashItem.stash_name = postStash.stash.name;
@@ -419,42 +522,42 @@ namespace Yarn_Feed.Controllers
             return newStashItem;
         }
 
-        // Method to get token NOT WORKING YET
-        public static async Task<string> GetAuthorizeToken()
-        {
-            // Initialization.  
-            string responseObj = string.Empty;
+    //// Method to get token NOT WORKING YET
+    //public static async Task<string> GetAuthorizeToken()
+    //{
+    //    // Initialization.  
+    //    string responseObj = string.Empty;
 
-            // Posting.  
-            using (var client = new HttpClient())
-            {
-                // Setting Base address.  
-                client.BaseAddress = new Uri("http://localhost:5507/");
+    //    // Posting.  
+    //    using (var client = new HttpClient())
+    //    {
+    //        // Setting Base address.  
+    //        client.BaseAddress = new Uri("http://localhost:5507/");
 
-                // Setting content type.  
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+    //        // Setting content type.  
+    //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                // Initialization.  
-                HttpResponseMessage response = new HttpResponseMessage();
-                List<KeyValuePair<string, string>> allIputParams = new List<KeyValuePair<string, string>>();
+    //        // Initialization.  
+    //        HttpResponseMessage response = new HttpResponseMessage();
+    //        List<KeyValuePair<string, string>> allIputParams = new List<KeyValuePair<string, string>>();
 
-                // Convert Request Params to Key Value Pair.  
+    //        // Convert Request Params to Key Value Pair.  
 
-                // URL Request parameters.  
-                HttpContent requestParams = new FormUrlEncodedContent(allIputParams);
+    //        // URL Request parameters.  
+    //        HttpContent requestParams = new FormUrlEncodedContent(allIputParams);
 
-                // HTTP POST  
-                response = await client.PostAsync("Token", requestParams).ConfigureAwait(false);
+    //        // HTTP POST  
+    //        response = await client.PostAsync("Token", requestParams).ConfigureAwait(false);
 
-                // Verification  
-                if (response.IsSuccessStatusCode)
-                {
-                    // Reading Response.  
+    //        // Verification  
+    //        if (response.IsSuccessStatusCode)
+    //        {
+    //            // Reading Response.  
 
-                }
-            }
+    //        }
+    //    }
 
-            return responseObj;
-        }
+    //    return responseObj;
+    //}
     }
 }

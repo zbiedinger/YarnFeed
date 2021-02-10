@@ -42,7 +42,6 @@ namespace Yarn_Feed.Data
         public DbSet<PostProject> PostProjectss { get; set; }
         public DbSet<PostShop> PostShops { get; set; }
         public DbSet<PostStash> PostStashs { get; set; }
-        public DbSet<SavedStash> SavedStash { get; set; }
 
     }
 }

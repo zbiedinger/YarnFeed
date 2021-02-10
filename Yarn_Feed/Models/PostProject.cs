@@ -41,8 +41,6 @@ namespace Yarn_Feed.Models
         public Needle_Sizes[] needle_sizes { get; set; }
         public int? photos_count { get; set; }
         public Photo[] photos { get; set; }
-        //public Pack[] packs { get; set; }
-        //public User user { get; set; }
     }
 
     public class Needle_Sizes
@@ -74,36 +72,6 @@ namespace Yarn_Feed.Models
 
     }
 
-    public class Pack
-    {
-        public int? id { get; set; }
-        public int? primary_pack_id { get; set; }
-        public int? project_id { get; set; }
-        public float? skeins { get; set; }
-        public int? stash_id { get; set; }
-        public int? total_grams { get; set; }
-        public float? total_meters { get; set; }
-        public float? total_ounces { get; set; }
-        public float? total_yards { get; set; }
-        public int? yarn_id { get; set; }
-        public string yarn_name { get; set; }
-        //public Yarn_Weight yarn_weight { get; set; }
-        public string colorway { get; set; }
-        public string shop_name { get; set; }
-        public Yarn yarn { get; set; }
-        public string quantity_description { get; set; }
-        public string personal_name { get; set; }
-        public string dye_lot { get; set; }
-        public int? color_family_id { get; set; }
-        public int? grams_per_skein { get; set; }
-        public float? yards_per_skein { get; set; }
-        public float? meters_per_skein { get; set; }
-        public float? ounces_per_skein { get; set; }
-        public bool? prefer_metric_weight { get; set; }
-        public bool? prefer_metric_length { get; set; }
-        public int? shop_id { get; set; }
-        public float? thread_size { get; set; }
-    }
     public class User
     {
         public string fave_colors { get; set; }
