@@ -41,27 +41,12 @@ namespace Yarn_Feed.Controllers
                 await UpdateLoginTime(crafter);
             }
 
-            //string stashId = "18830802";
-            //PostStash postStash = await GetStashAPIAsync(stashId);
-
-            //string projectNumber = "27233553";
-            //PostProject PostProject = await GetProjectAPIAsync(projectNumber);
-
-            //string patternNumber = "124400";
-            //PostPattern postPattern = await GetPatternAPIAsync(patternNumber);
-            //string ShopNumber = "2588";
-            //PostShop postShop = await GetShopAPIAsync(ShopNumber);
-
-            //PostViewModel postedGoodies = await GetRecentPosts();
-
             PostViewModel myPostsview = await GetRecentPosts(crafter);
 
             return View(myPostsview);
         }
 
         // Creates a new post based on the passed in strings
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> NewPost(string sharableType, string sharableId, string postBlurb)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -87,7 +72,6 @@ namespace Yarn_Feed.Controllers
                     Post foundShop = ConvertPost(postShop);
                     createpost = foundShop;
                     createpost.TypeOfPost = sharableType;
-
                     break;
                 case "Stash":
                     PostStash postStash = await GetStashAPIAsync(sharableId);
@@ -100,11 +84,75 @@ namespace Yarn_Feed.Controllers
                     break;
             }
 
+            createpost.IsRepost = false;
             createpost.PostContent = postBlurb;
             createpost.PostedByUserName = crafter.RavelryUsername;
             createpost.CrafterId = crafter.Id;
+            createpost.PostersPhoto = crafter.PhotoSmallURL;
             createpost.TimePosted = DateTime.Now;
             _context.Add(createpost);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // Repost a already share post
+        public async Task<IActionResult> RePost(int postId, string postBlurb)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var crafter = _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            Post oldPost = _context.Posts.Where(c => c.Id == postId).SingleOrDefault();
+            Post createpost = new Post();
+
+            createpost = oldPost;
+            createpost.IsRepost = true;
+            createpost.OriginallyPosedBy = oldPost.PostedByUserName;
+            createpost.RepostBlurb = oldPost.PostContent;
+            createpost.PostContent = postBlurb;
+            createpost.PostedByUserName = crafter.RavelryUsername;
+            createpost.CrafterId = crafter.Id;
+            createpost.PostersPhoto = crafter.PhotoSmallURL;
+            createpost.TimePosted = DateTime.Now;
+
+            _context.Add(createpost);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // Creates a new entry in the likes table for a post
+        public async Task<IActionResult> LikePost(int postId)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var crafter = _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            Post likedPost = _context.Posts.Where(c => c.Id == postId).SingleOrDefault();
+            Like newLike = new Like();
+
+            newLike.PostId = likedPost.Id;
+            newLike.CrafterId = crafter.Id;
+            newLike.IsLiked = true;
+            newLike.LikedAt = DateTime.Now;
+
+            _context.Update(newLike);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // Creates a new entry in the likes table for a comment
+        public async Task<IActionResult> LikeComment(int commentId)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var crafter = _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            Comment likedComment = _context.Comments.Where(c => c.Id == commentId).SingleOrDefault();
+            Like newLike = new Like();
+
+            newLike.CommentId = likedComment.Id;
+            newLike.CrafterId = crafter.Id;
+            newLike.IsLiked = true;
+            newLike.LikedAt = DateTime.Now;
+
+            _context.Update(newLike);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
@@ -166,13 +214,10 @@ namespace Yarn_Feed.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
         public async Task<PostViewModel> GetRecentPosts(Crafter crafter)
         {
             List<Post> newPosts = await GetPostsAsync();
-            List<PostPattern> postedPatterens = await GetPatternsAsync();
-            List<PostProject> postedProjects = await GetProjectsAsync();
-            List<PostShop> postedShops = await GetShopsAsync();
-            List<PostStash> postedStashs = await GetStashAsync();
             List<Like> postedLikes = await GetLikesAsync();
             List<Comment> postedComments = await GetCommentsAsync();
 
@@ -180,10 +225,6 @@ namespace Yarn_Feed.Controllers
             {
                 Crafter = crafter,
                 NewPosts = newPosts,
-                PostedPatterens = postedPatterens,
-                PostedProjects = postedProjects,
-                PostedShops = postedShops,
-                PostedStashs = postedStashs,
                 PostedLikes = postedLikes,
                 PostedComments = postedComments
             };
@@ -197,37 +238,20 @@ namespace Yarn_Feed.Controllers
             return posts;
         }
 
-        public async Task<List<PostPattern>> GetPatternsAsync()
-        {
-            List<PostPattern> patterns = null;
-            return patterns;
-        }
-        public async Task<List<PostProject>> GetProjectsAsync()
-        {
-            List<PostProject> projects = null;
-            return projects;
-        }
-        public async Task<List<PostShop>> GetShopsAsync()
-        {
-            List<PostShop> shops = null;
-            return shops;
-        }
-        public async Task<List<PostStash>> GetStashAsync()
-        {
-            List<PostStash> stashs = null;
-            return stashs;
-        }
         public async Task<List<Like>> GetLikesAsync()
         {
             List<Like> likes = null;
             return likes;
         }
+
         public async Task<List<Comment>> GetCommentsAsync()
         {
             List<Comment> comments = null;
             return comments;
         }
 
+
+        // These methods are the API calls
         // Gets a current signedin user from Ravelry API using Oauth 2.0
         public async Task<CurrentUser> GetCurrentUserAPIAsync()
         {
@@ -363,6 +387,9 @@ namespace Yarn_Feed.Controllers
             return patternFound;
         }
 
+
+        // These methods transfers data from PostType to Post
+        //Adds all the values from the project table to Post
         public Post ConvertPost(PostProject postProject)
         {
             Post newProjectItem = new Post();
@@ -405,6 +432,7 @@ namespace Yarn_Feed.Controllers
             return newProjectItem;
         }
 
+        //Adds all the values from the pattern table to Post
         public Post ConvertPost(PostPattern postPattern)
         {
             Post newPatternItem = new Post();
@@ -450,15 +478,10 @@ namespace Yarn_Feed.Controllers
                 newPatternItem.needle_sizes3 = postPattern.pattern.pattern_needle_sizes[2].name;
             }
 
-            newPatternItem.needle_sizes = postPattern.pattern.pattern_needle_sizes[0].name;
-            newPatternItem.needle_sizes2 = postPattern.pattern.pattern_needle_sizes[1].name;
-            newPatternItem.needle_sizes3 = postPattern.pattern.pattern_needle_sizes[2].name;
-            newPatternItem.shelved_url = postPattern.pattern.photos[0].shelved_url;
-            newPatternItem.medium_url = postPattern.pattern.photos[0].medium_url;
-
             return newPatternItem;
         }
 
+        //Adds all the values from the Shop table to Post
         public Post ConvertPost(PostShop postShop)
         {
             Post newShopItem = new Post();
@@ -486,7 +509,7 @@ namespace Yarn_Feed.Controllers
             return newShopItem;
         }
 
-        //Adds all the values from teh Stash table to Post
+        //Adds all the values from the Stash table to Post
         public Post ConvertPost(PostStash postStash)
         {
             Post newStashItem = new Post();

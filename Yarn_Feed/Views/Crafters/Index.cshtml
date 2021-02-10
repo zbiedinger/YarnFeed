@@ -19,9 +19,9 @@
                 <p><strong><a href="#" style="color: #DE7568">Interests</a></strong></p>
                 <p>
                     <span class="label" style="color: #000000">News</span>
-                    <span class="label" style="color: #000000">Labels</span>
+                    <span class="label" style="color: #000000">Knitting</span>
                     <span class="label" style="color: #000000">Yarn</span>
-                    <span class="label" style="color: #000000">Gaming</span>
+                    <span class="label" style="color: #000000">Crochet</span>
                     <span class="label" style="color: #000000">Friends</span>
                 </p>
             </div>
@@ -29,9 +29,9 @@
                     <img src="/Images/splash_balloon-alpaca-8bpp.png" class="img-fluid">
             </div>
             <div class="well" style="background-color: #F3F4F0">
-                <p><a href="#" style="color: #DE7568">Link</a></p>
-                <p><a href="#"style="color: #DE7568">Link</a></p>
-                <p><a href="#"style="color: #DE7568">Link</a></p>
+                <p><a href="#" style="color: #DE7568">Create New Project</a></p>
+                <p><a href="#"style="color: #DE7568">Find New Yarn</a></p>
+                <p><a href="#"style="color: #DE7568">Search for Friends</a></p>
             </div>
         </div>
         <div class="col-sm-7">
@@ -56,15 +56,11 @@
                                         <option>Pattern</option>
                                     </select>
                                 </div>
-                                @*<button type="submit" asp-for="project" name="action:project" class="btn btn-default btn-sm" style="background-color: #ABEDE3">Project</button>
-        <button type="submit" asp-route-submitButton="stash" name="action:stash" class="btn btn-default btn-sm" style="background-color: #ABEDE3">Stash</button>
-        <button type="submit" asp-route-submitButton="pattern" name="action:propatternject" class="btn btn-default btn-sm" style="background-color: #ABEDE3">Pattern</button>
-        <button type="submit" asp-route-submitButton="shop" name="action:shop" class="btn btn-default btn-sm" style="background-color: #ABEDE3">Shop</button>*@
-                            <div class="form-group col-md-2">
-                                <button type="submit" asp-for="blurb" name="action:blurb" class="btn" style="background-color: #DE7568">
-                                    <span class="glyphicon glyphicon-share"></span>Share
-                                </button>
-                            </div>
+                                <div class="form-group col-md-2">
+                                    <button type="submit" asp-for="blurb" name="action:blurb" class="btn" style="background-color: #DE7568">
+                                        <span class="glyphicon glyphicon-share"></span>Share
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -84,8 +80,11 @@
                         <button type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
                             <span class="glyphicon glyphicon-thumbs-up"></span> Like
                         </button>
-                        <button type="button" class="btn btn-default btn-sm" style="background-color: #DE7568">
+                        <button type="button" class="btn btn-default btn-sm" style="background-color:  #F0DE4D">
                             <span class="glyphicon glyphicon-comment"></span> Comment
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm" style="background-color: #DE7568">
+                            <span class="glyphicon glyphicon-share"></span> Repost
                         </button>
                     </div>
                 </div>
@@ -168,39 +167,3 @@
         </div>
     </div>
 </div>
-
-<table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Crafter.IdentityUserId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Crafter.RavelryUsername)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Crafter.RavelryId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Crafter.LastLoggedIn)
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    @Html.DisplayFor(model => model.Crafter.IdentityUserId)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.Crafter.RavelryUsername)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.Crafter.RavelryId)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.Crafter.LastLoggedIn)
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <img src="@Model.Crafter.PhotoTinyURL" alt="Alternate Text" />

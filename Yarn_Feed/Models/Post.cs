@@ -14,7 +14,11 @@ namespace Yarn_Feed.Models
         public string PostContent { get; set; }
         public string TypeOfPost { get; set; }
         public string PostedByUserName { get; set; }
+        public string PostersPhoto { get; set; }
         public DateTime TimePosted { get; set; }
+        public bool IsRepost { get; set; }
+        public string OriginallyPosedBy { get; set; }
+        public string RepostBlurb { get; set; }
 
         [ForeignKey("Crafter")]
         public int? CrafterId { get; set; }

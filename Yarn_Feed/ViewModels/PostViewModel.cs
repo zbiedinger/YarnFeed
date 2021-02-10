@@ -13,14 +13,16 @@ namespace Yarn_Feed.ViewModels
         public string postBlurb { get; set; }
         public string sharableId { get; set; }
         public string sharableType { get; set; }
+        public int postId { get; set; }
 
-        public List<Post> NewPosts { get; set; }
-        public List<PostPattern> PostedPatterens { get; set; }
-        public List<PostProject> PostedProjects { get; set; }
-        public List<PostShop> PostedShops { get; set; }
-        public List<PostStash> PostedStashs { get; set; }
+        //public List<PostPattern> PostedPatterens { get; set; }
+        //public List<PostProject> PostedProjects { get; set; }
+        //public List<PostShop> PostedShops { get; set; }
+        //public List<PostStash> PostedStashs { get; set; }
         public List<Like> PostedLikes { get; set; }
         public List<Comment> PostedComments { get; set; }
+        public List<Post> NewPosts { get; set; }
+
     }
 }
 
