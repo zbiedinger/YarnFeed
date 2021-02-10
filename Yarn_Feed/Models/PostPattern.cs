@@ -52,7 +52,7 @@ namespace Yarn_Feed.Models
         public Pattern_Needle_Sizes[] pattern_needle_sizes { get; set; }
         public string notes_html { get; set; }
         public string notes { get; set; }
-        public Pack[] packs { get; set; }
+        //public Pack[] packs { get; set; }
         //public Yarn_Weight yarn_weight { get; set; }
         //public Pattern_Categories[] pattern_categories { get; set; }
         public Pattern_Author pattern_author { get; set; }

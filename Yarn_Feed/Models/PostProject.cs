@@ -41,7 +41,7 @@ namespace Yarn_Feed.Models
         public Needle_Sizes[] needle_sizes { get; set; }
         public int? photos_count { get; set; }
         public Photo[] photos { get; set; }
-        public Pack[] packs { get; set; }
+        //public Pack[] packs { get; set; }
         //public User user { get; set; }
     }
 

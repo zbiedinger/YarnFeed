@@ -65,37 +65,61 @@ namespace Yarn_Feed.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var crafter = _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
-            Post createpost = new Post();
-            createpost.TypeOfPost = sharableType;
-            createpost.PostedByUserName = crafter.RavelryUsername;
-
             switch (sharableType)
             {
                 case "Project":
                     PostProject postProject = await GetProjectAPIAsync(sharableId);
-                    _context.Add(postProject);
-                    _context.Add(createpost);
+                    Post foundStash = ConvertStash(postProject);
+                    Post createProject = new Post();
+                    createProject = foundStash;
+                    createProject.TypeOfPost = sharableType;
+                    createProject.PostContent = postBlurb;
+                    createProject.PostedByUserName = crafter.RavelryUsername;
+                    createProject.CrafterId = crafter.Id;
+                    _context.Add(createProject);
                     await _context.SaveChangesAsync();
                     break;
                 case "Pattern":
                     PostPattern postPattern = await GetPatternAPIAsync(sharableId);
-                    _context.Add(postPattern);
-                    _context.Add(createpost);
+                    Post foundPattern = ConvertStash(postPattern);
+                    Post createPattern = new Post();
+                    createPattern = foundPattern;
+                    createPattern.TypeOfPost = sharableType;
+                    createPattern.PostContent = postBlurb;
+                    createPattern.PostedByUserName = crafter.RavelryUsername;
+                    createPattern.CrafterId = crafter.Id;
+                    _context.Add(createPattern);
+                    await _context.SaveChangesAsync();
                     break;
                 case "Shop":
                     PostShop postShop = await GetShopAPIAsync(sharableId);
-                    _context.Add(postShop);
-                    _context.Add(createpost);
+                    Post foundShop = ConvertStash(postShop);
+                    Post createShop = new Post();
+                    createShop = foundShop;
+                    createShop.TypeOfPost = sharableType;
+                    createShop.PostContent = postBlurb;
+                    createShop.PostedByUserName = crafter.RavelryUsername;
+                    createShop.CrafterId = crafter.Id;
+                    _context.Add(createShop);
+                    await _context.SaveChangesAsync();
                     break;
                 case "Stash":
                     PostStash postStash = await GetStashAPIAsync(sharableId);
-                    _context.Add(postStash);
+                    Post convertedStash = ConvertStash(postStash);
+                    Post createpost = new Post();
+                    createpost = convertedStash;
+                    createpost.TypeOfPost = sharableType;
+                    createpost.PostContent = postBlurb;
+                    createpost.PostedByUserName = crafter.RavelryUsername;
+                    createpost.CrafterId = crafter.Id;
                     _context.Add(createpost);
+                    await _context.SaveChangesAsync();
                     break;
                 default:
                     //Something went wrong
                     break;
             }
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -468,78 +492,135 @@ namespace Yarn_Feed.Controllers
             return patternFound;
         }
 
-        public static async Task<string> GetAuthorizeToken()
+        public Post ConvertStash(PostProject postProject)
         {
-            // Initialization.  
-            string responseObj = string.Empty;
+            Post newProjectItem = new Post();
 
-            // Posting.  
-            using (var client = new HttpClient())
-            {
-                // Setting Base address.  
-                client.BaseAddress = new Uri("http://localhost:3097/");
-
-                // Setting content type.  
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                 
-                // Initialization.  
-                HttpResponseMessage response = new HttpResponseMessage();
-                List<KeyValuePair<string, string>> allIputParams = new List<KeyValuePair<string, string>>();
-
-                // Convert Request Params to Key Value Pair.  
-                 
-                // URL Request parameters.  
-                HttpContent requestParams = new FormUrlEncodedContent(allIputParams);
-
-                // HTTP POST  
-                response = await client.PostAsync("Token", requestParams).ConfigureAwait(false);
-
-                // Verification  
-                if (response.IsSuccessStatusCode)
-                {
-                    // Reading Response.  
-                    
-                }
-            }
-
-            return responseObj;
+            return newProjectItem;
         }
 
-        public static async Task<string> GetInfo(string authorizeToken)
+        public Post ConvertStash(PostPattern postPattern)
         {
-            // Initialization.  
-            string responseObj = string.Empty;
+            Post newPatternItem = new Post();
 
-            // HTTP GET.  
-            using (var client = new HttpClient())
+            return newPatternItem;
+        }
+
+        public Post ConvertStash(PostShop postShop)
+        {
+            Post newShopItem = new Post();
+
+            return newShopItem;
+        }
+
+        //Adds all the values from teh Stash table to Post
+        public Post ConvertStash(PostStash postStash)
+        {
+            Post newStashItem = new Post();
+            newStashItem.has_photo = postStash.stash.has_photo;
+            newStashItem.user_id = postStash.stash.user_id;
+            newStashItem.name = postStash.stash.name;
+            newStashItem.colorway_name = postStash.stash.colorway_name;
+            newStashItem.color_family_name = postStash.stash.color_family_name;
+            newStashItem.yarn_weight_name = postStash.stash.long_yarn_weight_name;
+            newStashItem.company_name = postStash.stash.yarn.yarn_company.name;
+            if (postStash.stash.has_photo)
             {
-                // Initialization  
-                string authorization = authorizeToken;
-
-                // Setting Authorization.  
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authorization);
-
-                // Setting Base address.  
-                client.BaseAddress = new Uri("https://localhost:44334/");
-
-                // Setting content type.  
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // Initialization.  
-                HttpResponseMessage response = new HttpResponseMessage();
-
-                // HTTP GET  
-                response = await client.GetAsync("api/WebApi").ConfigureAwait(false);
-
-                // Verification  
-                if (response.IsSuccessStatusCode)
-                {
-                    // Reading Response.  
-                     
-                }
+                newStashItem.shelved_url = postStash.stash.photos[0].shelved_url;
+                newStashItem.medium_url = postStash.stash.photos[0].medium_url;
+            }
+            if (postStash.stash.yarn.yarn_fibers.Length >= 1)
+            {
+                newStashItem.fiber1Percent = postStash.stash.yarn.yarn_fibers[0].percentage;
+                newStashItem.fiber1 = postStash.stash.yarn.yarn_fibers[0].fiber_type.name;
+            }
+            if (postStash.stash.yarn.yarn_fibers.Length >= 2)
+            {
+                newStashItem.fiber2Percent = postStash.stash.yarn.yarn_fibers[1].percentage;
+                newStashItem.fiber2 = postStash.stash.yarn.yarn_fibers[1].fiber_type.name;
+            }
+            if (postStash.stash.yarn.yarn_fibers.Length >= 3)
+            {
+                newStashItem.fiber3Percent = postStash.stash.yarn.yarn_fibers[2].percentage;
+                newStashItem.fiber3 = postStash.stash.yarn.yarn_fibers[2].fiber_type.name; 
             }
 
-            return responseObj;
+            return newStashItem;
         }
     }
+
+        //public static async Task<string> GetAuthorizeToken()
+        //{
+        //    // Initialization.  
+        //    string responseObj = string.Empty;
+
+        //    // Posting.  
+        //    using (var client = new HttpClient())
+        //    {
+        //        // Setting Base address.  
+        //        client.BaseAddress = new Uri("http://localhost:3097/");
+
+        //        // Setting content type.  
+        //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        //        // Initialization.  
+        //        HttpResponseMessage response = new HttpResponseMessage();
+        //        List<KeyValuePair<string, string>> allIputParams = new List<KeyValuePair<string, string>>();
+
+        //        // Convert Request Params to Key Value Pair.  
+
+        //        // URL Request parameters.  
+        //        HttpContent requestParams = new FormUrlEncodedContent(allIputParams);
+
+        //        // HTTP POST  
+        //        response = await client.PostAsync("Token", requestParams).ConfigureAwait(false);
+
+        //        // Verification  
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            // Reading Response.  
+
+        //        }
+        //    }
+
+        //    return responseObj;
+        //}
+
+        //public static async Task<string> GetInfo(string authorizeToken)
+        //{
+        //    // Initialization.  
+        //    string responseObj = string.Empty;
+
+        //    // HTTP GET.  
+        //    using (var client = new HttpClient())
+        //    {
+        //        // Initialization  
+        //        string authorization = authorizeToken;
+
+        //        // Setting Authorization.  
+        //        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authorization);
+
+        //        // Setting Base address.  
+        //        client.BaseAddress = new Uri("https://localhost:44334/");
+
+        //        // Setting content type.  
+        //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        //        // Initialization.  
+        //        HttpResponseMessage response = new HttpResponseMessage();
+
+        //        // HTTP GET  
+        //        response = await client.GetAsync("api/WebApi").ConfigureAwait(false);
+
+        //        // Verification  
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            // Reading Response.  
+
+        //        }
+        //    }
+
+        //    return responseObj;
+        //}
+    
 }

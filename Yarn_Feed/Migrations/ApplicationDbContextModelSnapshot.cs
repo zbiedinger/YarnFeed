@@ -48,15 +48,15 @@ namespace Yarn_Feed.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bed35b6e-b493-4ec1-a23f-778bc7197b9e",
-                            ConcurrencyStamp = "aaf268f0-fd4f-44d6-90c8-b2ba6710725d",
+                            Id = "0e5366a0-980e-4ec1-aac9-70cb475f719b",
+                            ConcurrencyStamp = "40ca0483-5d5d-4b2d-a39d-bc44a07d0fce",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "4c4878b2-b62a-4d93-aac6-ffae59b76e27",
-                            ConcurrencyStamp = "35a5df17-4321-4d7c-a2db-768ae5f67e9b",
+                            Id = "948fa5e5-b9e5-4fdf-a1a9-40ada89d487d",
+                            ConcurrencyStamp = "0d0c2fd4-74e3-4b8a-b995-c8f680d0fabf",
                             Name = "Crafter",
                             NormalizedName = "CRAFTER"
                         });
@@ -460,110 +460,6 @@ namespace Yarn_Feed.Migrations
                     b.ToTable("Needle_Sizes");
                 });
 
-            modelBuilder.Entity("Yarn_Feed.Models.Pack", b =>
-                {
-                    b.Property<int?>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("Patternid")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Projectid")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Stashid")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("color_family_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("colorway")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("dye_lot")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("grams_per_skein")
-                        .HasColumnType("int");
-
-                    b.Property<float?>("meters_per_skein")
-                        .HasColumnType("real");
-
-                    b.Property<float?>("ounces_per_skein")
-                        .HasColumnType("real");
-
-                    b.Property<string>("personal_name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("prefer_metric_length")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("prefer_metric_weight")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("primary_pack_id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("project_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("quantity_description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("shop_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("shop_name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float?>("skeins")
-                        .HasColumnType("real");
-
-                    b.Property<int?>("stash_id")
-                        .HasColumnType("int");
-
-                    b.Property<float?>("thread_size")
-                        .HasColumnType("real");
-
-                    b.Property<int?>("total_grams")
-                        .HasColumnType("int");
-
-                    b.Property<float?>("total_meters")
-                        .HasColumnType("real");
-
-                    b.Property<float?>("total_ounces")
-                        .HasColumnType("real");
-
-                    b.Property<float?>("total_yards")
-                        .HasColumnType("real");
-
-                    b.Property<float?>("yards_per_skein")
-                        .HasColumnType("real");
-
-                    b.Property<int?>("yarn_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("yarn_name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("yarnid")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("Patternid");
-
-                    b.HasIndex("Projectid");
-
-                    b.HasIndex("Stashid");
-
-                    b.HasIndex("yarnid");
-
-                    b.ToTable("Pack");
-                });
-
             modelBuilder.Entity("Yarn_Feed.Models.Pattern", b =>
                 {
                     b.Property<int?>("id")
@@ -802,9 +698,6 @@ namespace Yarn_Feed.Migrations
                     b.Property<int?>("Stashid")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Yarnid")
-                        .HasColumnType("int");
-
                     b.Property<string>("medium2_url")
                         .HasColumnType("nvarchar(max)");
 
@@ -842,8 +735,6 @@ namespace Yarn_Feed.Migrations
                     b.HasIndex("Projectid");
 
                     b.HasIndex("Stashid");
-
-                    b.HasIndex("Yarnid");
 
                     b.ToTable("Photo");
                 });
@@ -955,14 +846,9 @@ namespace Yarn_Feed.Migrations
                     b.Property<int?>("stashid")
                         .HasColumnType("int");
 
-                    b.Property<int?>("userid")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("stashid");
-
-                    b.HasIndex("userid");
 
                     b.ToTable("PostStashs");
                 });
@@ -1046,6 +932,66 @@ namespace Yarn_Feed.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Project");
+                });
+
+            modelBuilder.Entity("Yarn_Feed.Models.SavedStash", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("color_family_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("colorway_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("company_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("fiber1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("fiber1Percent")
+                        .HasColumnType("int");
+
+                    b.Property<string>("fiber2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("fiber2Percent")
+                        .HasColumnType("int");
+
+                    b.Property<string>("fiber3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("fiber3Percent")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("has_photo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("medium_url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("shelved_url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("stash_API_id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("user_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("yarn_weight_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SavedStash");
                 });
 
             modelBuilder.Entity("Yarn_Feed.Models.Shop", b =>
@@ -1143,16 +1089,10 @@ namespace Yarn_Feed.Migrations
                     b.Property<string>("created_at")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("dye_lot")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("favorites_count")
-                        .HasColumnType("int");
-
                     b.Property<bool?>("handspun")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("has_photo")
+                    b.Property<bool>("has_photo")
                         .HasColumnType("bit");
 
                     b.Property<string>("long_yarn_weight_name")
@@ -1170,9 +1110,6 @@ namespace Yarn_Feed.Migrations
                     b.Property<int?>("user_id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("userid")
-                        .HasColumnType("int");
-
                     b.Property<string>("yarn_weight_name")
                         .HasColumnType("nvarchar(max)");
 
@@ -1180,8 +1117,6 @@ namespace Yarn_Feed.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("id");
-
-                    b.HasIndex("userid");
 
                     b.HasIndex("yarnid");
 
@@ -1201,51 +1136,6 @@ namespace Yarn_Feed.Migrations
                     b.HasKey("id");
 
                     b.ToTable("State");
-                });
-
-            modelBuilder.Entity("Yarn_Feed.Models.User", b =>
-                {
-                    b.Property<int?>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("about_me")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("about_me_html")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("fave_colors")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("fave_curse")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("first_name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("large_photo_url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("location")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("photo_url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("small_photo_url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("tiny_photo_url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("username")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Yarn_Feed.Models.Yarn", b =>
@@ -1445,25 +1335,6 @@ namespace Yarn_Feed.Migrations
                         .HasForeignKey("Projectid");
                 });
 
-            modelBuilder.Entity("Yarn_Feed.Models.Pack", b =>
-                {
-                    b.HasOne("Yarn_Feed.Models.Pattern", null)
-                        .WithMany("packs")
-                        .HasForeignKey("Patternid");
-
-                    b.HasOne("Yarn_Feed.Models.Project", null)
-                        .WithMany("packs")
-                        .HasForeignKey("Projectid");
-
-                    b.HasOne("Yarn_Feed.Models.Stash", null)
-                        .WithMany("packs")
-                        .HasForeignKey("Stashid");
-
-                    b.HasOne("Yarn_Feed.Models.Yarn", "yarn")
-                        .WithMany()
-                        .HasForeignKey("yarnid");
-                });
-
             modelBuilder.Entity("Yarn_Feed.Models.Pattern", b =>
                 {
                     b.HasOne("Yarn_Feed.Models.Pattern_Author", "pattern_author")
@@ -1495,10 +1366,6 @@ namespace Yarn_Feed.Migrations
                     b.HasOne("Yarn_Feed.Models.Stash", null)
                         .WithMany("photos")
                         .HasForeignKey("Stashid");
-
-                    b.HasOne("Yarn_Feed.Models.Yarn", null)
-                        .WithMany("photos")
-                        .HasForeignKey("Yarnid");
                 });
 
             modelBuilder.Entity("Yarn_Feed.Models.Post", b =>
@@ -1519,7 +1386,7 @@ namespace Yarn_Feed.Migrations
                         .WithMany()
                         .HasForeignKey("ShopId");
 
-                    b.HasOne("Yarn_Feed.Models.PostStash", "PostStash")
+                    b.HasOne("Yarn_Feed.Models.PostStash", "SavedStash")
                         .WithMany()
                         .HasForeignKey("StashId");
                 });
@@ -1550,10 +1417,6 @@ namespace Yarn_Feed.Migrations
                     b.HasOne("Yarn_Feed.Models.Stash", "stash")
                         .WithMany()
                         .HasForeignKey("stashid");
-
-                    b.HasOne("Yarn_Feed.Models.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userid");
                 });
 
             modelBuilder.Entity("Yarn_Feed.Models.Shop", b =>
@@ -1569,10 +1432,6 @@ namespace Yarn_Feed.Migrations
 
             modelBuilder.Entity("Yarn_Feed.Models.Stash", b =>
                 {
-                    b.HasOne("Yarn_Feed.Models.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userid");
-
                     b.HasOne("Yarn_Feed.Models.Yarn", "yarn")
                         .WithMany()
                         .HasForeignKey("yarnid");

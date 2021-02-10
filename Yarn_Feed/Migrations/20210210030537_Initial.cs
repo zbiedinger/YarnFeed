@@ -146,6 +146,34 @@ namespace Yarn_Feed.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SavedStash",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    has_photo = table.Column<bool>(nullable: false),
+                    stash_API_id = table.Column<int>(nullable: true),
+                    user_id = table.Column<int>(nullable: true),
+                    name = table.Column<string>(nullable: true),
+                    colorway_name = table.Column<string>(nullable: true),
+                    color_family_name = table.Column<string>(nullable: true),
+                    yarn_weight_name = table.Column<string>(nullable: true),
+                    shelved_url = table.Column<string>(nullable: true),
+                    medium_url = table.Column<string>(nullable: true),
+                    company_name = table.Column<string>(nullable: true),
+                    fiber1Percent = table.Column<int>(nullable: true),
+                    fiber1 = table.Column<string>(nullable: true),
+                    fiber2Percent = table.Column<int>(nullable: true),
+                    fiber2 = table.Column<string>(nullable: true),
+                    fiber3Percent = table.Column<int>(nullable: true),
+                    fiber3 = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SavedStash", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "State",
                 columns: table => new
                 {
@@ -156,29 +184,6 @@ namespace Yarn_Feed.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_State", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "User",
-                columns: table => new
-                {
-                    id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    fave_colors = table.Column<string>(nullable: true),
-                    fave_curse = table.Column<string>(nullable: true),
-                    first_name = table.Column<string>(nullable: true),
-                    location = table.Column<string>(nullable: true),
-                    username = table.Column<string>(nullable: true),
-                    tiny_photo_url = table.Column<string>(nullable: true),
-                    small_photo_url = table.Column<string>(nullable: true),
-                    photo_url = table.Column<string>(nullable: true),
-                    large_photo_url = table.Column<string>(nullable: true),
-                    about_me = table.Column<string>(nullable: true),
-                    about_me_html = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_User", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -609,10 +614,8 @@ namespace Yarn_Feed.Migrations
                     id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     created_at = table.Column<string>(nullable: true),
-                    dye_lot = table.Column<string>(nullable: true),
-                    favorites_count = table.Column<int>(nullable: true),
                     handspun = table.Column<bool>(nullable: true),
-                    has_photo = table.Column<bool>(nullable: true),
+                    has_photo = table.Column<bool>(nullable: false),
                     updated_at = table.Column<string>(nullable: true),
                     user_id = table.Column<int>(nullable: true),
                     name = table.Column<string>(nullable: true),
@@ -621,18 +624,11 @@ namespace Yarn_Feed.Migrations
                     yarn_weight_name = table.Column<string>(nullable: true),
                     long_yarn_weight_name = table.Column<string>(nullable: true),
                     personal_yarn_weight = table.Column<string>(nullable: true),
-                    yarnid = table.Column<int>(nullable: true),
-                    userid = table.Column<int>(nullable: true)
+                    yarnid = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Stash", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Stash_User_userid",
-                        column: x => x.userid,
-                        principalTable: "User",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Stash_Yarn_yarnid",
                         column: x => x.yarnid,
@@ -669,70 +665,6 @@ namespace Yarn_Feed.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pack",
-                columns: table => new
-                {
-                    id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    primary_pack_id = table.Column<int>(nullable: true),
-                    project_id = table.Column<int>(nullable: true),
-                    skeins = table.Column<float>(nullable: true),
-                    stash_id = table.Column<int>(nullable: true),
-                    total_grams = table.Column<int>(nullable: true),
-                    total_meters = table.Column<float>(nullable: true),
-                    total_ounces = table.Column<float>(nullable: true),
-                    total_yards = table.Column<float>(nullable: true),
-                    yarn_id = table.Column<int>(nullable: true),
-                    yarn_name = table.Column<string>(nullable: true),
-                    colorway = table.Column<string>(nullable: true),
-                    shop_name = table.Column<string>(nullable: true),
-                    yarnid = table.Column<int>(nullable: true),
-                    quantity_description = table.Column<string>(nullable: true),
-                    personal_name = table.Column<string>(nullable: true),
-                    dye_lot = table.Column<string>(nullable: true),
-                    color_family_id = table.Column<int>(nullable: true),
-                    grams_per_skein = table.Column<int>(nullable: true),
-                    yards_per_skein = table.Column<float>(nullable: true),
-                    meters_per_skein = table.Column<float>(nullable: true),
-                    ounces_per_skein = table.Column<float>(nullable: true),
-                    prefer_metric_weight = table.Column<bool>(nullable: true),
-                    prefer_metric_length = table.Column<bool>(nullable: true),
-                    shop_id = table.Column<int>(nullable: true),
-                    thread_size = table.Column<float>(nullable: true),
-                    Patternid = table.Column<int>(nullable: true),
-                    Projectid = table.Column<int>(nullable: true),
-                    Stashid = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pack", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Pack_Pattern_Patternid",
-                        column: x => x.Patternid,
-                        principalTable: "Pattern",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Pack_Project_Projectid",
-                        column: x => x.Projectid,
-                        principalTable: "Project",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Pack_Stash_Stashid",
-                        column: x => x.Stashid,
-                        principalTable: "Stash",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Pack_Yarn_yarnid",
-                        column: x => x.yarnid,
-                        principalTable: "Yarn",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Photo",
                 columns: table => new
                 {
@@ -750,8 +682,7 @@ namespace Yarn_Feed.Migrations
                     small2_url = table.Column<string>(nullable: true),
                     Patternid = table.Column<int>(nullable: true),
                     Projectid = table.Column<int>(nullable: true),
-                    Stashid = table.Column<int>(nullable: true),
-                    Yarnid = table.Column<int>(nullable: true)
+                    Stashid = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -774,12 +705,6 @@ namespace Yarn_Feed.Migrations
                         principalTable: "Stash",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Photo_Yarn_Yarnid",
-                        column: x => x.Yarnid,
-                        principalTable: "Yarn",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -788,8 +713,7 @@ namespace Yarn_Feed.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    stashid = table.Column<int>(nullable: true),
-                    userid = table.Column<int>(nullable: true)
+                    stashid = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -798,12 +722,6 @@ namespace Yarn_Feed.Migrations
                         name: "FK_PostStashs_Stash_stashid",
                         column: x => x.stashid,
                         principalTable: "Stash",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PostStashs_User_userid",
-                        column: x => x.userid,
-                        principalTable: "User",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -927,12 +845,12 @@ namespace Yarn_Feed.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "bed35b6e-b493-4ec1-a23f-778bc7197b9e", "aaf268f0-fd4f-44d6-90c8-b2ba6710725d", "Admin", "ADMIN" });
+                values: new object[] { "0e5366a0-980e-4ec1-aac9-70cb475f719b", "40ca0483-5d5d-4b2d-a39d-bc44a07d0fce", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "4c4878b2-b62a-4d93-aac6-ffae59b76e27", "35a5df17-4321-4d7c-a2db-768ae5f67e9b", "Crafter", "CRAFTER" });
+                values: new object[] { "948fa5e5-b9e5-4fdf-a1a9-40ada89d487d", "0d0c2fd4-74e3-4b8a-b995-c8f680d0fabf", "Crafter", "CRAFTER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Admin_IdentityUserId",
@@ -1014,26 +932,6 @@ namespace Yarn_Feed.Migrations
                 column: "Projectid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pack_Patternid",
-                table: "Pack",
-                column: "Patternid");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pack_Projectid",
-                table: "Pack",
-                column: "Projectid");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pack_Stashid",
-                table: "Pack",
-                column: "Stashid");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pack_yarnid",
-                table: "Pack",
-                column: "yarnid");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Pattern_pattern_authorid",
                 table: "Pattern",
                 column: "pattern_authorid");
@@ -1062,11 +960,6 @@ namespace Yarn_Feed.Migrations
                 name: "IX_Photo_Stashid",
                 table: "Photo",
                 column: "Stashid");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Photo_Yarnid",
-                table: "Photo",
-                column: "Yarnid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostPatterns_patternid",
@@ -1114,11 +1007,6 @@ namespace Yarn_Feed.Migrations
                 column: "stashid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostStashs_userid",
-                table: "PostStashs",
-                column: "userid");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Shop_countryid",
                 table: "Shop",
                 column: "countryid");
@@ -1127,11 +1015,6 @@ namespace Yarn_Feed.Migrations
                 name: "IX_Shop_stateid",
                 table: "Shop",
                 column: "stateid");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Stash_userid",
-                table: "Stash",
-                column: "userid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Stash_yarnid",
@@ -1181,13 +1064,13 @@ namespace Yarn_Feed.Migrations
                 name: "Needle_Sizes");
 
             migrationBuilder.DropTable(
-                name: "Pack");
-
-            migrationBuilder.DropTable(
                 name: "Pattern_Needle_Sizes");
 
             migrationBuilder.DropTable(
                 name: "Photo");
+
+            migrationBuilder.DropTable(
+                name: "SavedStash");
 
             migrationBuilder.DropTable(
                 name: "Yarn_Fibers");
@@ -1245,9 +1128,6 @@ namespace Yarn_Feed.Migrations
 
             migrationBuilder.DropTable(
                 name: "State");
-
-            migrationBuilder.DropTable(
-                name: "User");
 
             migrationBuilder.DropTable(
                 name: "Yarn");

@@ -11,16 +11,14 @@ namespace Yarn_Feed.Models
         [Key]
         public int Id { get; set; }
         public Stash stash { get; set; }
-        public User user { get; set; }
+        //public User user { get; set; }
     }
 
     public class Stash
     {
         public string created_at { get; set; }
-        public string dye_lot { get; set; }
-        public int? favorites_count { get; set; }
         public bool? handspun { get; set; }
-        public bool? has_photo { get; set; }
+        public bool has_photo { get; set; }
         public int? id { get; set; }
         public string updated_at { get; set; }
         public int? user_id { get; set; }
@@ -32,8 +30,6 @@ namespace Yarn_Feed.Models
         public string personal_yarn_weight { get; set; }
         public Photo[] photos { get; set; }
         public Yarn yarn { get; set; }
-        public Pack[] packs { get; set; }
-        public User user { get; set; }
     }
 
     public class Yarn
@@ -52,7 +48,6 @@ namespace Yarn_Feed.Models
         public string notes_html { get; set; }
         public Yarn_Company yarn_company { get; set; }
         public Yarn_Fibers[] yarn_fibers { get; set; }
-        public Photo[] photos { get; set; }
     }
 
     public class Yarn_Company
