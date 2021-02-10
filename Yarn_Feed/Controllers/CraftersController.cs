@@ -105,6 +105,7 @@ namespace Yarn_Feed.Controllers
             Post createpost = new Post();
 
             createpost = oldPost;
+            createpost.Id = 0;
             createpost.IsRepost = true;
             createpost.OriginallyPosedBy = oldPost.PostedByUserName;
             createpost.RepostBlurb = oldPost.PostContent;

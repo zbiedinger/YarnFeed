@@ -154,140 +154,42 @@
                             </div>
 
                             <form asp-action="LikePost" method="post">
-                                <input type="hidden" asp-for="@post.Id" />
-                                <button asp-action="LikePost" type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
+                                <input type="hidden" asp-for="postId" value="@post.Id"  />
+                                <button asp-action="LikePost" type="submit" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
                                     <span class="glyphicon glyphicon-thumbs-up"></span> Like
                                 </button>
                                 <p> #oflike</p>
                             </form>
-                            <div class="well" style="padding: 0; margin: 0">
-                                <form asp-action="AddComment" method="post">
-                                    <div class="form-group col-md-7">
-                                        <input asp-for="postBlurb" class="form-control" id="postBlurb" placeholder="Comment...">
-                                    </div>
-                                    <div class="form-group col-md-1">
-                                        <button type="button" class="btn" style="background-color:  #F0DE4D">
-                                            <span class="glyphicon glyphicon-comment"></span> Comment
-                                        </button>
-                                    </div>
-                                </form>
-                                <form asp-action="RePost" method="post">
-                                    <div class="form-group col-md-7">
-                                        <input asp-for="postBlurb" class="form-control" id="postBlurb" placeholder="Comment...">
-                                    </div>
-                                    <input type="hidden" asp-for="@post.Id" />
-                                    <div class="form-group col-md-1">
-                                        <button type="button" class="btn" style="background-color: #DE7568">
-                                            <span class="glyphicon glyphicon-share"></span> Repost
-                                        </button>
-                                    </div>
-                                </form>
+                            <div class="panel panel-default text-left" style="background-color: #F3F4F0">
+                                <div class="panel-body">
+                                    <form asp-action="AddComment" method="post">
+                                        <div class="form-group col-md-10">
+                                            <input type="hidden" asp-for="postId" value="@post.Id" />
+                                            <input asp-for="postBlurb" class="form-control" id="postBlurb" placeholder="Comment...">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <button type="submit" class="btn" style="background-color:  #F0DE4D">
+                                                <span class="glyphicon glyphicon-comment"></span> Comment
+                                            </button>
+                                        </div>
+                                    </form>
+                                    <form asp-action="RePost">
+                                        <div class="form-group col-md-10">
+                                            <input type="hidden" asp-for="postId" value="@post.Id" />
+                                            <input asp-for="postBlurb" class="form-control" id="postBlurb" placeholder="Comment...">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <button type="submit" class="btn" style="background-color: #DE7568">
+                                                <span class="glyphicon glyphicon-share"></span> Repost
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             }
-            <div class="row">
-                <div class="col-sm-3" style="padding-right: 7px">
-                    <div class="well" style="background-color: #F3F4F0">
-                        <p><strong>John</strong></p>
-                        <img src="@Model.Crafter.PhotoSmallURL" class="rounded" height="55" width="55" alt="Avatar">
-                    </div>
-                </div>
-                <div class="col-sm-9" style="padding-left: 0">
-                    <div class="well" style="background-color: #F3F4F0">
-                        <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
-                        <form asp-action="AddComment" method="post">
-                            <div class="form-group col-md-7">
-                                <input asp-for="postBlurb" class="form-control" id="postBlurb" placeholder="Comment...">
-                            </div>
-                            <div class="form-group col-md-1">
-                                <button type="button" class="btn" style="background-color:  #F0DE4D">
-                                    <span class="glyphicon glyphicon-comment"></span> Comment
-                                </button>
-                            </div>
-                        </form>
-                        <form asp-action="RePost" method="post">
-                            <div class="form-group col-md-7">
-                                <input asp-for="postBlurb" class="form-control" id="postBlurb" placeholder="Comment...">
-                            </div>
-                            <input type="hidden" asp-for="postId" />
-                            <div class="form-group col-md-1">
-                                <button type="button" class="btn" style="background-color: #DE7568">
-                                    <span class="glyphicon glyphicon-share"></span> Repost
-                                </button>
-                            </div>
-                        </form>
-                        <form asp-action="Comment" method="post">
-                            <input type="hidden" asp-for="postId" />
-                            <button asp-action="LikePost" type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
-                                <span class="glyphicon glyphicon-thumbs-up"></span> Like
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-3" style="padding-right: 7px">
-                    <div class="well" style="background-color: #F3F4F0">
-                        <p>Bo</p>
-                        <img src="@Model.Crafter.PhotoTinyURL" class="rounded" height="55" width="55" alt="Avatar">
-                    </div>
-                </div>
-                <div class="col-sm-9" style="padding-left: 0">
-                    <div class="well" style="background-color: #F3F4F0">
-                        <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
-                        <button type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
-                            <span class="glyphicon glyphicon-thumbs-up"></span> Like
-                        </button>
-                        <button type="button" class="btn btn-default btn-sm" style="background-color: #DE7568">
-                            <span class="glyphicon glyphicon-comment"></span> Comment
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-3" style="padding-right: 7px">
-                    <div class="well" style="background-color: #F3F4F0">
-                        <p>Jane</p>
-                        <img src="bandmember.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    </div>
-                </div>
-                <div class="col-sm-9" style="padding-left: 0">
-                    <div class="well" style="background-color: #F3F4F0">
-                        <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
-                        <button type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
-                            <span class="glyphicon glyphicon-thumbs-up"></span> Like
-                        </button>
-                        <button type="button" class="btn btn-default btn-sm" style="background-color: #DE7568">
-                            <span class="glyphicon glyphicon-comment"></span> Comment
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-3" style="padding-right: 7px">
-                    <div class="well" style="background-color: #F3F4F0">
-                        <p>Anja</p>
-                        <img src="bird.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    </div>
-                </div>
-                <div class="col-sm-9" style="padding-left: 0">
-                    <div class="well" style="background-color: #F3F4F0">
-                        <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
-                        <button type="button" class="btn btn-default btn-sm" style="background-color: #ABEDE3">
-                            <span class="glyphicon glyphicon-thumbs-up"></span> Like
-                        </button>
-                        <button type="button" class="btn btn-default btn-sm" style="background-color: #DE7568">
-                            <span class="glyphicon glyphicon-comment"></span> Comment
-                        </button>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
         <div class="col-sm-2 well" style="background-color: #25434C">
