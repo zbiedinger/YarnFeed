@@ -14,6 +14,7 @@ namespace Yarn_Feed.Models
         public string PostContent { get; set; }
         public string TypeOfPost { get; set; }
         public string PostedByUserName { get; set; }
+        public DateTime TimePosted { get; set; }
 
         [ForeignKey("Crafter")]
         public int? CrafterId { get; set; }
@@ -35,10 +36,10 @@ namespace Yarn_Feed.Models
         //public int? ShopId { get; set; }
         //public PostShop PostShop { get; set; }
 
-        public bool has_photo { get; set; }
+        public bool stash_has_photo { get; set; }
         public int? stash_API_id { get; set; }
         public int? user_id { get; set; }
-        public string name { get; set; }
+        public string stash_name { get; set; }
         public string colorway_name { get; set; }
         public string color_family_name { get; set; }
         public string yarn_weight_name { get; set; }

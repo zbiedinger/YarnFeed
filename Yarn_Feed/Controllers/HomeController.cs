@@ -32,121 +32,58 @@ namespace Yarn_Feed.Controllers
         public async Task<IActionResult> Index()
         {
 
-            //PostShop shopFound = null;
-            //PostProject projectFound = null;
-            //CurrentUser currentUser;
-            //ApiToken apiToken;
-            //string errorString;
-
-            //try
-            //{
-            //    using (var httpclient = new HttpClient())
-            //    {
-            //        using (var request = new HttpRequestMessage(new HttpMethod("get"), "https://api.ravelry.com/shops/" + "2588" + ".json?include=brands+ad"))
-            //        {
-            //            var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes(ApiKeys.GetUsername() + ":" + ApiKeys.GetPassword()));
-            //            request.Headers.TryAddWithoutValidation("authorization", $"basic {base64authorization}");
-
-            //            var response = await httpclient.SendAsync(request);
-            //            string result = await response.Content.ReadAsStringAsync();
-            //            shopFound = JsonConvert.DeserializeObject<PostShop>(result);
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    errorString = $"There was a error getting our Shop: {ex.Message}";
-            //}
-
-
-
-            //try
-            //{
-            //    using (var httpclient = new HttpClient())
-            //    {
-            //        using (var request = new HttpRequestMessage(new HttpMethod("get"), "https://api.ravelry.com/shops/2588.json?include=brands+ad"))
-            //        {
-            //            var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes("read-eacbe5950cc441073c7d5fbb94aac112:Q1TdrHdrFMCNYc9RcmaCyH6HhZd+jIEvlUUy+cJj"));
-            //            request.Headers.TryAddWithoutValidation("authorization", $"basic {base64authorization}");
-
-            //            var response = await httpclient.SendAsync(request);
-            //            string result = await response.Content.ReadAsStringAsync();
-            //            shopFound = JsonConvert.DeserializeObject<PostShop>(result);
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    errorString = $"There was a error getting our Shop: {ex.Message}";
-            //}
-
-
-            //POST Request to get the access Token
-            ////try
-            ////{
-            ////    using (var httpClient = new HttpClient())
-            ////    {
-            ////        using (var request = new HttpRequestMessage(new HttpMethod("POST"), accessTokenURL))
-            ////        {
-            ////            request.Headers.TryAddWithoutValidation("Accept", "application/json");
-            ////            request.Headers.TryAddWithoutValidation("Accept-Language", "en_US");
-            ////            request.Headers.TryAddWithoutValidation("Host", "www.ravelry.com");
-
-            ////            var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes(clientId + ":" + clientSecret));
-            ////            request.Headers.TryAddWithoutValidation("Authorization", "Basic " + base64authorization);
-
-            ////            request.Content = new StringContent("grant_type=client_credentials");
-            ////            request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
-
-            ////            var response = await httpClient.SendAsync(request);
-            ////            string result = await response.Content.ReadAsStringAsync();
-            ////            apiToken = JsonConvert.DeserializeObject<ApiToken>(result);
-            ////            currentToken = apiToken.access_token;
-            ////        }
-            ////    }
-            ////}
-            ////catch (Exception ex)
-            ////{
-            ////    errorString = $"There was a error getting our Shop: {ex.Message}";
-            ////}
-
-            //////GET Request using the Access Token
-            ////try
-            ////{
-            ////    using (var httpClient = new HttpClient())
-            ////    {
-            ////        using (var request = new HttpRequestMessage(new HttpMethod("GET"), "https://api.ravelry.com/current_user.json"))
-            ////        {
-            ////            request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + currentToken);
-
-            ////            var response = await httpClient.SendAsync(request);
-            ////            string result = await response.Content.ReadAsStringAsync();
-            ////            currentUser = JsonConvert.DeserializeObject<CurrentUser>(result);
-            ////        }
-            ////    }
-            ////}
-            ////catch (Exception ex)
-            ////{
-            ////    errorString = $"There was a error getting our Shop: {ex.Message}";
-            ////}
-
-
-
-            //PostStash postStash = null;
-            //using (var httpClient = new HttpClient())
-            //{
-            //    using (var request = new HttpRequestMessage(new HttpMethod("GET"), "https://api.ravelry.com/people/zacb/stash/18830802.json"))
-            //    {
-            //        request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + currentToken);
-
-            //        var response = await httpClient.SendAsync(request);
-            //        string result = await response.Content.ReadAsStringAsync();
-            //        //postStash = JsonConvert.DeserializeObject<PostStash>(result);
-            //    }
-            //}
-
             return View();
         }
+
+        ////POST Request to get the access Token
+        //try
+        //{
+        //    using (var httpClient = new HttpClient())
+        //    {
+        //        using (var request = new HttpRequestMessage(new HttpMethod("POST"), accessTokenURL))
+        //        {
+        //            request.Headers.TryAddWithoutValidation("Accept", "application/json");
+        //            request.Headers.TryAddWithoutValidation("Accept-Language", "en_US");
+        //            request.Headers.TryAddWithoutValidation("Host", "www.ravelry.com");
+
+        //            var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes(clientId + ":" + clientSecret));
+        //            request.Headers.TryAddWithoutValidation("Authorization", "Basic " + base64authorization);
+
+        //            request.Content = new StringContent("grant_type=client_credentials");
+        //            request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
+
+        //            var response = await httpClient.SendAsync(request);
+        //            string result = await response.Content.ReadAsStringAsync();
+        //            apiToken = JsonConvert.DeserializeObject<ApiToken>(result);
+        //            currentToken = apiToken.access_token;
+        //        }
+        //    }
+        //}
+        //catch (Exception ex)
+        //{
+        //    errorString = $"There was a error getting our Shop: {ex.Message}";
+        //}
+
+        ////GET Request using the Access Token
+        //try
+        //{
+        //    using (var httpClient = new HttpClient())
+        //    {
+        //        using (var request = new HttpRequestMessage(new HttpMethod("GET"), "https://api.ravelry.com/current_user.json"))
+        //        {
+        //            request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + currentToken);
+
+        //            var response = await httpClient.SendAsync(request);
+        //            string result = await response.Content.ReadAsStringAsync();
+        //            currentUser = JsonConvert.DeserializeObject<CurrentUser>(result);
+        //        }
+        //    }
+        //}
+        //catch (Exception ex)
+        //{
+        //    errorString = $"There was a error getting our Shop: {ex.Message}";
+        //}
+
 
         //public async Task<string> GetAPI(string apiPath)
         //{

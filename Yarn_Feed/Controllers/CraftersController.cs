@@ -30,13 +30,13 @@ namespace Yarn_Feed.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var crafter =  _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            var crafter = _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             if (crafter == null)
             {
                 return RedirectToAction("Create");
             }
 
-            if(crafter.LastLoggedIn < DateTime.Now.AddMinutes(-5))
+            if (crafter.LastLoggedIn < DateTime.Now.AddMinutes(-5))
             {
                 await UpdateLoginTime(crafter);
             }
@@ -59,91 +59,58 @@ namespace Yarn_Feed.Controllers
             return View(myPostsview);
         }
 
+        // Creates a new post based on the passed in strings
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> NewPost(string sharableType, string sharableId, string postBlurb) 
+        public async Task<IActionResult> NewPost(string sharableType, string sharableId, string postBlurb)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var crafter = _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            Post createpost = new Post();
+
             switch (sharableType)
             {
                 case "Project":
                     PostProject postProject = await GetProjectAPIAsync(sharableId);
                     Post foundStash = ConvertStash(postProject);
-                    Post createProject = new Post();
-                    createProject = foundStash;
-                    createProject.TypeOfPost = sharableType;
-                    createProject.PostContent = postBlurb;
-                    createProject.PostedByUserName = crafter.RavelryUsername;
-                    createProject.CrafterId = crafter.Id;
-                    _context.Add(createProject);
-                    await _context.SaveChangesAsync();
+                    createpost = foundStash;
+                    createpost.TypeOfPost = sharableType;
                     break;
                 case "Pattern":
                     PostPattern postPattern = await GetPatternAPIAsync(sharableId);
                     Post foundPattern = ConvertStash(postPattern);
-                    Post createPattern = new Post();
-                    createPattern = foundPattern;
-                    createPattern.TypeOfPost = sharableType;
-                    createPattern.PostContent = postBlurb;
-                    createPattern.PostedByUserName = crafter.RavelryUsername;
-                    createPattern.CrafterId = crafter.Id;
-                    _context.Add(createPattern);
-                    await _context.SaveChangesAsync();
+                    createpost = foundPattern;
+                    createpost.TypeOfPost = sharableType;
                     break;
                 case "Shop":
                     PostShop postShop = await GetShopAPIAsync(sharableId);
                     Post foundShop = ConvertStash(postShop);
-                    Post createShop = new Post();
-                    createShop = foundShop;
-                    createShop.TypeOfPost = sharableType;
-                    createShop.PostContent = postBlurb;
-                    createShop.PostedByUserName = crafter.RavelryUsername;
-                    createShop.CrafterId = crafter.Id;
-                    _context.Add(createShop);
-                    await _context.SaveChangesAsync();
+                    createpost = foundShop;
+                    createpost.TypeOfPost = sharableType;
+
                     break;
                 case "Stash":
                     PostStash postStash = await GetStashAPIAsync(sharableId);
                     Post convertedStash = ConvertStash(postStash);
-                    Post createpost = new Post();
                     createpost = convertedStash;
                     createpost.TypeOfPost = sharableType;
-                    createpost.PostContent = postBlurb;
-                    createpost.PostedByUserName = crafter.RavelryUsername;
-                    createpost.CrafterId = crafter.Id;
-                    _context.Add(createpost);
-                    await _context.SaveChangesAsync();
                     break;
                 default:
-                    //Something went wrong
+                    createpost.TypeOfPost = "Blurb";
                     break;
             }
+
+            createpost.PostContent = postBlurb;
+            createpost.PostedByUserName = crafter.RavelryUsername;
+            createpost.CrafterId = crafter.Id;
+            createpost.TimePosted = DateTime.Now;
+            _context.Add(createpost);
+            await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }
 
-
-        // GET: Crafters/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var crafter = await _context.Crafter
-                .Include(c => c.IdentityUser)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (crafter == null)
-            {
-                return NotFound();
-            }
-
-            return View(crafter);
-        }
-
-        // GET: Crafters/Create
+        // Creates a new Crafter from the account found with API call
         public async Task<IActionResult> Create()
         {
             CurrentUser currentUser = await GetCurrentUserAPIAsync();
@@ -169,102 +136,6 @@ namespace Yarn_Feed.Controllers
 
             //if here, then something went wrong
             return View();
-        }
-
-        //// POST: Crafters/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create(Crafter crafter)
-        //{
-        //    if (crafter == null) 
-        //    {
-        //        return RedirectToAction("Index"); 
-        //    }
-
-        //    return View(crafter);
-        //}
-
-        // GET: Crafters/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var crafter = await _context.Crafter.FindAsync(id);
-            if (crafter == null)
-            {
-                return NotFound();
-            }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", crafter.IdentityUserId);
-            return View(crafter);
-        }
-
-        // POST: Crafters/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,IdentityUserId,RavelryUsername,RavelryPassword,RavelryId,CurrentToken,TokenUpdated,PhotoTinyURL,PhotoSmallURL,LastLoggedIn,ShowLastLoggin")] Crafter crafter)
-        {
-            if (id != crafter.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(crafter);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CrafterExists(crafter.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", crafter.IdentityUserId);
-            return View(crafter);
-        }
-
-        // GET: Crafters/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var crafter = await _context.Crafter
-                .Include(c => c.IdentityUser)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (crafter == null)
-            {
-                return NotFound();
-            }
-
-            return View(crafter);
-        }
-
-        // POST: Crafters/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var crafter = await _context.Crafter.FindAsync(id);
-            _context.Crafter.Remove(crafter);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool CrafterExists(int id)
@@ -440,7 +311,7 @@ namespace Yarn_Feed.Controllers
 
         // Gets a shop from Ravelry API from passed in ID using Basic Oauth
         public async Task<PostShop> GetShopAPIAsync(string shopId)
-        { 
+        {
             PostShop shopFound = null;
             try
             {
@@ -517,9 +388,9 @@ namespace Yarn_Feed.Controllers
         public Post ConvertStash(PostStash postStash)
         {
             Post newStashItem = new Post();
-            newStashItem.has_photo = postStash.stash.has_photo;
+            newStashItem.stash_has_photo = postStash.stash.has_photo;
             newStashItem.user_id = postStash.stash.user_id;
-            newStashItem.name = postStash.stash.name;
+            newStashItem.stash_name = postStash.stash.name;
             newStashItem.colorway_name = postStash.stash.colorway_name;
             newStashItem.color_family_name = postStash.stash.color_family_name;
             newStashItem.yarn_weight_name = postStash.stash.long_yarn_weight_name;
@@ -542,85 +413,48 @@ namespace Yarn_Feed.Controllers
             if (postStash.stash.yarn.yarn_fibers.Length >= 3)
             {
                 newStashItem.fiber3Percent = postStash.stash.yarn.yarn_fibers[2].percentage;
-                newStashItem.fiber3 = postStash.stash.yarn.yarn_fibers[2].fiber_type.name; 
+                newStashItem.fiber3 = postStash.stash.yarn.yarn_fibers[2].fiber_type.name;
             }
 
             return newStashItem;
         }
+
+        // Method to get token NOT WORKING YET
+        public static async Task<string> GetAuthorizeToken()
+        {
+            // Initialization.  
+            string responseObj = string.Empty;
+
+            // Posting.  
+            using (var client = new HttpClient())
+            {
+                // Setting Base address.  
+                client.BaseAddress = new Uri("http://localhost:5507/");
+
+                // Setting content type.  
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Initialization.  
+                HttpResponseMessage response = new HttpResponseMessage();
+                List<KeyValuePair<string, string>> allIputParams = new List<KeyValuePair<string, string>>();
+
+                // Convert Request Params to Key Value Pair.  
+
+                // URL Request parameters.  
+                HttpContent requestParams = new FormUrlEncodedContent(allIputParams);
+
+                // HTTP POST  
+                response = await client.PostAsync("Token", requestParams).ConfigureAwait(false);
+
+                // Verification  
+                if (response.IsSuccessStatusCode)
+                {
+                    // Reading Response.  
+
+                }
+            }
+
+            return responseObj;
+        }
     }
-
-        //public static async Task<string> GetAuthorizeToken()
-        //{
-        //    // Initialization.  
-        //    string responseObj = string.Empty;
-
-        //    // Posting.  
-        //    using (var client = new HttpClient())
-        //    {
-        //        // Setting Base address.  
-        //        client.BaseAddress = new Uri("http://localhost:3097/");
-
-        //        // Setting content type.  
-        //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-        //        // Initialization.  
-        //        HttpResponseMessage response = new HttpResponseMessage();
-        //        List<KeyValuePair<string, string>> allIputParams = new List<KeyValuePair<string, string>>();
-
-        //        // Convert Request Params to Key Value Pair.  
-
-        //        // URL Request parameters.  
-        //        HttpContent requestParams = new FormUrlEncodedContent(allIputParams);
-
-        //        // HTTP POST  
-        //        response = await client.PostAsync("Token", requestParams).ConfigureAwait(false);
-
-        //        // Verification  
-        //        if (response.IsSuccessStatusCode)
-        //        {
-        //            // Reading Response.  
-
-        //        }
-        //    }
-
-        //    return responseObj;
-        //}
-
-        //public static async Task<string> GetInfo(string authorizeToken)
-        //{
-        //    // Initialization.  
-        //    string responseObj = string.Empty;
-
-        //    // HTTP GET.  
-        //    using (var client = new HttpClient())
-        //    {
-        //        // Initialization  
-        //        string authorization = authorizeToken;
-
-        //        // Setting Authorization.  
-        //        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authorization);
-
-        //        // Setting Base address.  
-        //        client.BaseAddress = new Uri("https://localhost:44334/");
-
-        //        // Setting content type.  
-        //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-        //        // Initialization.  
-        //        HttpResponseMessage response = new HttpResponseMessage();
-
-        //        // HTTP GET  
-        //        response = await client.GetAsync("api/WebApi").ConfigureAwait(false);
-
-        //        // Verification  
-        //        if (response.IsSuccessStatusCode)
-        //        {
-        //            // Reading Response.  
-
-        //        }
-        //    }
-
-        //    return responseObj;
-        //}
-    
 }
