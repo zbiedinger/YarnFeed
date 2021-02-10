@@ -82,7 +82,7 @@ namespace Yarn_Feed.Models
         public int? project_id { get; set; }
         public string made_for { get; set; }
         public string project_name { get; set; }
-]        public int? progress { get; set; }
+        public int? progress { get; set; }
         public string project_status_changed { get; set; }
         public int? rating { get; set; }
         public string size { get; set; }

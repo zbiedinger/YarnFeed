@@ -38,10 +38,6 @@ namespace Yarn_Feed.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Post> Posts { get; set; }
-        public DbSet<PostPattern> PostPatterns { get; set; }
-        public DbSet<PostProject> PostProjectss { get; set; }
-        public DbSet<PostShop> PostShops { get; set; }
-        public DbSet<PostStash> PostStashs { get; set; }
 
     }
 }
