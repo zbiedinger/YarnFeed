@@ -1,0 +1,1097 @@
+{
+	"info": {
+		"_postman_id": "63c7d05f-65ea-4e57-a8d1-04c93ea3013e",
+		"name": "Capstone Ravelry",
+		"description": "DevCodeCamp Capstone project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Yarn Show \"Festival\"",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {},
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Q1TdrHdrFMCNYc9RcmaCyH6HhZd+jIEvlUUy+cJj",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "read-eacbe5950cc441073c7d5fbb94aac112",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://api.ravelry.com/yarns/573.json",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ravelry",
+						"com"
+					],
+					"path": [
+						"yarns",
+						"573.json"
+					]
+				},
+				"description": "Provided example from Documentation"
+			},
+			"response": []
+		},
+		{
+			"name": "Pattern Search \"cowl\"",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Q1TdrHdrFMCNYc9RcmaCyH6HhZd+jIEvlUUy+cJj",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "read-eacbe5950cc441073c7d5fbb94aac112",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ravelry.com/patterns/search.json?query=Sockhead",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ravelry",
+						"com"
+					],
+					"path": [
+						"patterns",
+						"search.json"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "Sockhead"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Color Family",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Q1TdrHdrFMCNYc9RcmaCyH6HhZd+jIEvlUUy+cJj",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "read-eacbe5950cc441073c7d5fbb94aac112",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ravelry.com/color_families.json",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ravelry",
+						"com"
+					],
+					"path": [
+						"color_families.json"
+					]
+				},
+				"description": "List of all the color familys"
+			},
+			"response": []
+		},
+		{
+			"name": "Current User",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "state",
+							"value": "anystringcanbeusedjustnotblank",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{Client_Secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{Client_ID}}",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "offline",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "https://www.ravelry.com/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "https://www.ravelry.com/oauth2/auth",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "Ravelry",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://oauth.pstmn.io/v1/callback",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ravelry.com/current_user.json",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ravelry",
+						"com"
+					],
+					"path": [
+						"current_user.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "People Show",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "state",
+							"value": "itisnotworking",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "Ravelry 1",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{Client_Secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{Client_ID}}",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "offline",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "https://www.ravelry.com/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "https://www.ravelry.com/oauth2/auth",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://oauth.pstmn.io/v1/callback",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ravelry.com/people/zacb.json",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ravelry",
+						"com"
+					],
+					"path": [
+						"people",
+						"zacb.json"
+					]
+				},
+				"description": "Gets the person based on there ID or The username"
+			},
+			"response": []
+		},
+		{
+			"name": "List of Projects \"zacb\"",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "state",
+							"value": "itisnotworking",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "Ravelry 1",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{Client_Secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{Client_ID}}",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "offline",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "https://www.ravelry.com/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "https://www.ravelry.com/oauth2/auth",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://oauth.pstmn.io/v1/callback",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ravelry.com/projects/zacb/list.json?include=collections",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ravelry",
+						"com"
+					],
+					"path": [
+						"projects",
+						"zacb",
+						"list.json"
+					],
+					"query": [
+						{
+							"key": "include",
+							"value": "collections"
+						}
+					]
+				},
+				"description": "GEtst the list of projects connected to an pased pople username"
+			},
+			"response": []
+		},
+		{
+			"name": "List of my Stack",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "state",
+							"value": "itisnotworking",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "Ravelry 1",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{Client_Secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{Client_ID}}",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "offline",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "https://www.ravelry.com/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "https://www.ravelry.com/oauth2/auth",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://oauth.pstmn.io/v1/callback",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ravelry.com/people/zacb/stash/list.json",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ravelry",
+						"com"
+					],
+					"path": [
+						"people",
+						"zacb",
+						"stash",
+						"list.json"
+					]
+				},
+				"description": "List of given users stash"
+			},
+			"response": []
+		},
+		{
+			"name": "List Comments by user",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "offline message-write",
+							"type": "string"
+						},
+						{
+							"key": "state",
+							"value": "funstuffhere",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "Ravelry 1",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{Client_Secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{Client_ID}}",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "https://www.ravelry.com/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "https://www.ravelry.com/oauth2/auth",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://oauth.pstmn.io/v1/callback",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ravelry.com/messages/list.json?folder=inbox&format=full&page_size=20",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ravelry",
+						"com"
+					],
+					"path": [
+						"messages",
+						"list.json"
+					],
+					"query": [
+						{
+							"key": "folder",
+							"value": "inbox"
+						},
+						{
+							"key": "format",
+							"value": "full"
+						},
+						{
+							"key": "unread_only",
+							"value": "0",
+							"disabled": true
+						},
+						{
+							"key": "page_size",
+							"value": "20"
+						}
+					]
+				},
+				"description": "pass the current user"
+			},
+			"response": []
+		},
+		{
+			"name": "Project request",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "offline message-write",
+							"type": "string"
+						},
+						{
+							"key": "state",
+							"value": "funstuffhere",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "Ravelry 1",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{Client_Secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{Client_ID}}",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "https://www.ravelry.com/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "https://www.ravelry.com/oauth2/auth",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://oauth.pstmn.io/v1/callback",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ravelry.com/projects/Zacb/27233553.json?include=comments",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ravelry",
+						"com"
+					],
+					"path": [
+						"projects",
+						"Zacb",
+						"27233553.json"
+					],
+					"query": [
+						{
+							"key": "include",
+							"value": "comments"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pattern Request",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{Password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{Username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ravelry.com/patterns/1016281.json",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ravelry",
+						"com"
+					],
+					"path": [
+						"patterns",
+						"1016281.json"
+					]
+				},
+				"description": "Basic Auth not the Oath 2"
+			},
+			"response": []
+		},
+		{
+			"name": "Stash Request",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "state",
+							"value": "anystringcanbeusedjustnotblank",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "offline",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "Ravelry 1",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{Client_Secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{Client_ID}}",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "https://www.ravelry.com/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "https://www.ravelry.com/oauth2/auth",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://oauth.pstmn.io/v1/callback",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ravelry.com/people/zacb/stash/18830802.json",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ravelry",
+						"com"
+					],
+					"path": [
+						"people",
+						"zacb",
+						"stash",
+						"18830802.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Shop Request",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{Password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{Username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ravelry.com/shops/2588.json?include=brands+ad",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ravelry",
+						"com"
+					],
+					"path": [
+						"shops",
+						"2588.json"
+					],
+					"query": [
+						{
+							"key": "include",
+							"value": "brands+ad"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List of Projects \"Mario\"",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "state",
+							"value": "anystringcanbeusedjustnotblank",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{Client_Secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{Client_ID}}",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "offline",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "https://www.ravelry.com/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "https://www.ravelry.com/oauth2/auth",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "Ravelry",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://oauth.pstmn.io/v1/callback",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ravelry.com/projects/SuperMario86/list.json?include=collections",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ravelry",
+						"com"
+					],
+					"path": [
+						"projects",
+						"SuperMario86",
+						"list.json"
+					],
+					"query": [
+						{
+							"key": "include",
+							"value": "collections"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List of Mario's Stash",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "state",
+							"value": "anystringcanbeusedjustnotblank",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{Client_Secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{Client_ID}}",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "offline",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "https://www.ravelry.com/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "https://www.ravelry.com/oauth2/auth",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "Ravelry",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://oauth.pstmn.io/v1/callback",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ravelry.com/people/SuperMario86/stash/list.json",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ravelry",
+						"com"
+					],
+					"path": [
+						"people",
+						"SuperMario86",
+						"stash",
+						"list.json"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "ClientID",
+			"value": "ClientID"
+		}
+	]
+}
