@@ -46,6 +46,39 @@ namespace Yarn_Feed.Controllers
             return View(myPostsview);
         }
 
+        public async Task<ActionResult> FriendProfile(int crafterId)
+        {
+            var crafter = _context.Crafter.Where(c => c.Id == crafterId).SingleOrDefault();
+            return View(crafter);
+        }
+
+        // Creates a new entry in the follows table for a crafter
+        public async Task<ActionResult> Follow(int crafterId)
+        {
+            var beingFollowed = _context.Crafter.Where(c => c.Id == crafterId).SingleOrDefault();
+
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var crafter = _context.Crafter.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+
+            var follow = _context.Follows.Where(c => c.FollowingId == beingFollowed.Id && c.CrafterId == crafter.Id).SingleOrDefault();
+            if (follow == null)
+            {
+                Following newFollow = new Following();
+                newFollow.IsFollowing = true;
+                newFollow.CrafterId = crafter.Id;
+                newFollow.FollowingId = beingFollowed.Id;
+                _context.Update(newFollow);
+            }
+            else
+            {
+                follow.IsFollowing = !follow.IsFollowing;
+                _context.Update(follow);
+            }
+
+            await _context.SaveChangesAsync();
+            return View(crafter);
+        }
+
         // Creates a new post based on the passed in strings
         public async Task<IActionResult> NewPost(string sharableType, string sharableId, string postBlurb)
         {
@@ -242,10 +275,12 @@ namespace Yarn_Feed.Controllers
 
         public async Task<PostViewModel> GetRecentPosts(Crafter crafter)
         {
-            List<Post> newPosts = await GetPostsAsync();
+            List<Following> follow = _context.Follows.Where(c => c.CrafterId == crafter.Id).ToList();
+
+            List<Post> newPosts = await GetPostsAsync(follow);
             List<Like> postedLikes = await GetLikesAsync();
             List<Comment> postedComments = await GetCommentsAsync();
-
+            
             PostViewModel postedGoodies = new PostViewModel()
             {
                 Crafter = crafter,
@@ -257,8 +292,9 @@ namespace Yarn_Feed.Controllers
             return postedGoodies;
         }
 
-        public async Task<List<Post>> GetPostsAsync()
+        public async Task<List<Post>> GetPostsAsync(List<Following> follow)
         {
+
             List<Post> posts = _context.Posts.Where(c => c.Id > 0 ).ToList();
 
             return posts.OrderByDescending(c => c.TimePosted).ToList();

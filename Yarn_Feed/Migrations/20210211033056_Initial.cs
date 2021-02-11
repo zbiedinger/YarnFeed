@@ -317,6 +317,8 @@ namespace Yarn_Feed.Migrations
                     IsRead = table.Column<bool>(nullable: true),
                     CommentContent = table.Column<string>(nullable: true),
                     IsFirstComment = table.Column<bool>(nullable: true),
+                    CrafterPhoto = table.Column<string>(nullable: true),
+                    CrafterName = table.Column<string>(nullable: true),
                     ReplyToId = table.Column<int>(nullable: true),
                     PostId = table.Column<int>(nullable: true),
                     CrafterId = table.Column<int>(nullable: true)
@@ -376,12 +378,12 @@ namespace Yarn_Feed.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "dc6cb2ef-bf43-4761-9cca-aab4bac71c7f", "85da4ee1-80d5-4c16-98b9-8c47e17b37ce", "Admin", "ADMIN" });
+                values: new object[] { "362b6526-7ff8-4197-831f-f2a54821ed86", "ca44671d-7783-4912-87a6-28ec992270d3", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "28b1a8d2-3616-4ee8-9048-dcd988965ca4", "59523933-1ac4-4319-8470-5c78377cb7f6", "Crafter", "CRAFTER" });
+                values: new object[] { "9ff424ea-0dfe-4110-9791-bfafa6500e79", "aa2f588f-ab99-4985-84a5-3615ad2b94b0", "Crafter", "CRAFTER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Admin_IdentityUserId",

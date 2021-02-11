@@ -1,0 +1,48 @@
+﻿@model Yarn_Feed.Models.Crafter
+
+@{
+    ViewData["Title"] = "FriendProfile";
+}
+
+<h1>FriendProfile</h1>
+
+<div>
+    <h4>Crafter</h4>
+    <hr />
+    <dl class="row">
+
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RavelryUsername)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RavelryUsername)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PhotoTinyURL)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PhotoTinyURL)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PhotoSmallURL)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PhotoSmallURL)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LastLoggedIn)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LastLoggedIn)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ShowLastLoggin)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ShowLastLoggin)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Follow" asp-route-id="@Model.Id">Edit</a>
+</div>

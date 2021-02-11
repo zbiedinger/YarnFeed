@@ -10,7 +10,7 @@ using Yarn_Feed.Data;
 namespace Yarn_Feed.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210210195401_Initial")]
+    [Migration("20210211033056_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,15 +50,15 @@ namespace Yarn_Feed.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "dc6cb2ef-bf43-4761-9cca-aab4bac71c7f",
-                            ConcurrencyStamp = "85da4ee1-80d5-4c16-98b9-8c47e17b37ce",
+                            Id = "362b6526-7ff8-4197-831f-f2a54821ed86",
+                            ConcurrencyStamp = "ca44671d-7783-4912-87a6-28ec992270d3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "28b1a8d2-3616-4ee8-9048-dcd988965ca4",
-                            ConcurrencyStamp = "59523933-1ac4-4319-8470-5c78377cb7f6",
+                            Id = "9ff424ea-0dfe-4110-9791-bfafa6500e79",
+                            ConcurrencyStamp = "aa2f588f-ab99-4985-84a5-3615ad2b94b0",
                             Name = "Crafter",
                             NormalizedName = "CRAFTER"
                         });
@@ -286,6 +286,12 @@ namespace Yarn_Feed.Migrations
 
                     b.Property<int?>("CrafterId")
                         .HasColumnType("int");
+
+                    b.Property<string>("CrafterName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CrafterPhoto")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("IsFirstComment")
                         .HasColumnType("bit");
