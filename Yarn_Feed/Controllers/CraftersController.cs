@@ -169,6 +169,8 @@ namespace Yarn_Feed.Controllers
 
             newComment.PostId = commentedPost.Id;
             newComment.CrafterId = crafter.Id;
+            newComment.CrafterPhoto = crafter.PhotoTinyURL;
+            newComment.CrafterName = crafter.RavelryUsername;
             newComment.IsRead = false;
             newComment.IsFirstComment = true;
             newComment.CommentContent = postBlurb;
@@ -265,13 +267,13 @@ namespace Yarn_Feed.Controllers
         public async Task<List<Like>> GetLikesAsync()
         {
             List<Like> likes = _context.Likes.Where(c => c.Id > 0).ToList();
-            return likes;
+            return likes.OrderByDescending(c => c.PostId).ThenBy(c => c.LikedAt).ToList();
         }
 
         public async Task<List<Comment>> GetCommentsAsync()
         {
             List<Comment> comments = _context.Comments.Where(c => c.Id > 0).ToList();
-            return comments;
+            return comments.OrderByDescending(c => c.PostId).ThenBy(c => c.CommentedAt).ToList();
         }
 
 
@@ -538,7 +540,6 @@ namespace Yarn_Feed.Controllers
         {
             Post newStashItem = new Post();
 
-            newStashItem.stash_has_photo = postStash.stash.has_photo;
             newStashItem.user_id = postStash.stash.user_id;
             newStashItem.stash_name = postStash.stash.name;
             newStashItem.colorway_name = postStash.stash.colorway_name;
@@ -547,6 +548,7 @@ namespace Yarn_Feed.Controllers
             newStashItem.company_name = postStash.stash.yarn.yarn_company.name;
             if (postStash.stash.has_photo)
             {
+                newStashItem.stash_has_photo = postStash.stash.has_photo;
                 newStashItem.shelved_url = postStash.stash.photos[0].shelved_url;
                 newStashItem.medium_url = postStash.stash.photos[0].medium_url;
             }

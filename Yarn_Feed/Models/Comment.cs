@@ -15,6 +15,8 @@ namespace Yarn_Feed.Models
         public bool? IsRead { get; set; }
         public string CommentContent { get; set; }
         public bool? IsFirstComment { get; set; }
+        public string CrafterPhoto { get; set; }
+        public string CrafterName { get; set; }
         public int? ReplyToId { get; set; } //should this be a foreighKey to the same table???
 
         [ForeignKey("Post")]
