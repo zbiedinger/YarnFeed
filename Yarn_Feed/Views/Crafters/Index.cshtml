@@ -107,6 +107,7 @@
                                         @if (post.TypeOfPost == "Shop")
                                         {
                                             <div class="col-md-6">
+                                                <h4>Shop</h4>
                                                 <address>
                                                     <strong>@post.shop_name</strong><br>
                                                     @post.Address<br>
@@ -115,12 +116,13 @@
                                                 </address>
                                             </div>
                                             <div class="col-md-6">
-                                                <span class="glyphicon glyphicon-home" style="font-size: 50px;"></span>
+                                                <span class="glyphicon glyphicon-home" style="font-size: 60px;"></span>
                                             </div>
                                         }
                                         @if (post.TypeOfPost == "Pattern")
                                         {
                                             <div class="col-md-6">
+                                                <h4>Pattern</h4>
                                                 <img src="@post.shelved_url" class="rounded" height="150" alt="Avatar">
                                             </div>
                                             <div class="col-md-6">
@@ -135,6 +137,7 @@
                                         @if (post.TypeOfPost == "Project")
                                         {
                                             <div class="col-md-6">
+                                                <h4>Project</h4>
                                                 <img src="@post.shelved_url" class="rounded" height="150" alt="Avatar">
                                             </div>
                                             <div class="col-md-6 text-left">
@@ -149,6 +152,7 @@
                                         @if (post.TypeOfPost == "Stash")
                                         {
                                             <div class="col-md-6">
+                                                <h4>Stash</h4>
                                                 @if (post.stash_has_photo)
                                                 {
                                                     <img src="@post.shelved_url" class="rounded" height="150" alt="Avatar">

@@ -48,7 +48,7 @@ namespace Yarn_Feed.Controllers
 
         public async Task<ActionResult> FriendProfile(int crafterId)
         {
-            var crafter = _context.Crafter.Where(c => c.Id == crafterId).SingleOrDefault();
+            Crafter crafter = _context.Crafter.Where(c => c.Id == crafterId).SingleOrDefault();
             return View(crafter);
         }
 
@@ -275,7 +275,8 @@ namespace Yarn_Feed.Controllers
 
         public async Task<PostViewModel> GetRecentPosts(Crafter crafter)
         {
-            List<Following> follow = _context.Follows.Where(c => c.CrafterId == crafter.Id).ToList();
+            //List<Following> follow = _context.Follows.Where(c => c.CrafterId == crafter.Id).ToList();
+            List<Following> follow = new List<Following>();
 
             List<Post> newPosts = await GetPostsAsync(follow);
             List<Like> postedLikes = await GetLikesAsync();
