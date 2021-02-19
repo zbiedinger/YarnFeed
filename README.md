@@ -19,10 +19,10 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-    <img src="images/darn_no_back.png" alt="Logo" width="80" height="80">
+    <img src="images/darn_no_back.png" alt="Logo" width="100" height="200">
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    A fiber artests new social platform!
     <br />
     <a href="https://github.com/zbiedinger/YarnFeed"><strong>Explore the docs »</strong></a>
     <br />
@@ -61,8 +61,6 @@ The fiber arts have been my go-to hobby for many years, and it's not easy findin
 Here's why:
 * You should be able to share a project with all it's details during it's creation without having to recreate or summerize it into a genaric post. The fiber arts are filled with long term projects and they 
 * You should have all your friends and hobbies in one place and not clogged up by other social media.
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have have contributed to expanding this template!
 
 ### Built With
 
