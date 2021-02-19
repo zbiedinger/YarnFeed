@@ -19,7 +19,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-    <img src="images/darn_no_back.png" alt="Logo" width="100" height="200">
+    <img src="images/darn_no_back.png" alt="Logo" width="400" height="200">
 
   <p align="center">
     A fiber artests new social platform!
